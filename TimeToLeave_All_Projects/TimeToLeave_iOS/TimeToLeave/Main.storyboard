@@ -15,13 +15,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" text="Search for the location..." prompt="Add a new destination" id="NSz-K8-GeY">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="75"/>
+                            <rect key="frame" x="0.0" y="64" width="600" height="75"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits" returnKeyType="search"/>
                         </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DestinationTableViewCell" rowHeight="90" id="d9X-5E-APY" customClass="DestinationTableViewCell" customModule="TimeToLeave" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="103" width="600" height="90"/>
+                                <rect key="frame" x="0.0" y="167" width="600" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="d9X-5E-APY" id="nmG-eg-DqL">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="89"/>
@@ -37,6 +37,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="nameLabel" destination="MAs-98-c4i" id="oUp-Jo-j4g"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="ShowDetail" id="ohu-Di-UGl"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -54,7 +55,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ljK-Gw-Lp9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="293" y="395"/>
+            <point key="canvasLocation" x="-590" y="167"/>
         </scene>
         <!--Search for a Location-->
         <scene sceneID="VPy-s2-7oY">
@@ -78,48 +79,50 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CXc-dd-AIL">
-                                            <rect key="frame" x="0.0" y="8" width="592" height="103"/>
+                                            <rect key="frame" x="8" y="8" width="584" height="103"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="0L1-oH-qjj">
-                                                    <rect key="frame" x="0.0" y="0.0" width="489" height="103"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="492" height="103"/>
                                                     <subviews>
                                                         <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Z5z-o2-Xr1">
-                                                            <rect key="frame" x="0.0" y="0.0" width="489" height="82"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="492" height="82"/>
                                                         </mapView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nlt-QQ-dFw">
-                                                            <rect key="frame" x="0.0" y="82" width="489" height="21"/>
+                                                            <rect key="frame" x="0.0" y="82" width="492" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                 </stackView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OvT-hU-TUI">
-                                                    <rect key="frame" x="489" y="0.0" width="103" height="103"/>
-                                                    <gestureRecognizers/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LeU-s3-RTQ">
+                                                    <rect key="frame" x="492" y="0.0" width="92" height="103"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="103" id="O6F-7B-tS4"/>
+                                                        <constraint firstAttribute="width" constant="92" id="jgr-Gj-Lzy"/>
                                                     </constraints>
-                                                    <state key="normal" title="Select"/>
-                                                    <connections>
-                                                        <segue destination="BYZ-38-t0r" kind="show" identifier="LocationToDestination" id="QfU-Hd-KpN"/>
-                                                    </connections>
-                                                </button>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <gestureRecognizers/>
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailingMargin" secondItem="CXc-dd-AIL" secondAttribute="trailing" id="6QD-ai-ty5"/>
-                                        <constraint firstItem="CXc-dd-AIL" firstAttribute="leading" secondItem="BEo-Sq-pqa" secondAttribute="leading" id="HpY-z7-KsK"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="CXc-dd-AIL" secondAttribute="bottom" id="ODQ-MO-YHQ"/>
-                                        <constraint firstItem="CXc-dd-AIL" firstAttribute="top" secondItem="BEo-Sq-pqa" secondAttribute="topMargin" id="zkA-LY-xb4"/>
+                                        <constraint firstItem="CXc-dd-AIL" firstAttribute="leading" secondItem="BEo-Sq-pqa" secondAttribute="leadingMargin" id="4zv-9Q-uyR"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="CXc-dd-AIL" secondAttribute="trailing" id="bwZ-30-0b5"/>
+                                        <constraint firstItem="CXc-dd-AIL" firstAttribute="top" secondItem="BEo-Sq-pqa" secondAttribute="topMargin" id="jAd-hS-fna"/>
+                                        <constraint firstItem="CXc-dd-AIL" firstAttribute="bottom" secondItem="BEo-Sq-pqa" secondAttribute="bottomMargin" id="mYv-gZ-Nxw"/>
+                                        <constraint firstItem="CXc-dd-AIL" firstAttribute="bottom" secondItem="BEo-Sq-pqa" secondAttribute="bottomMargin" id="nQZ-b6-FOP"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="CXc-dd-AIL" secondAttribute="trailing" id="plK-rl-0vj"/>
+                                        <constraint firstItem="CXc-dd-AIL" firstAttribute="leading" secondItem="BEo-Sq-pqa" secondAttribute="leadingMargin" id="sV7-x3-lhh"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outlet property="mapView" destination="Z5z-o2-Xr1" id="dTF-Gx-jEx"/>
                                     <outlet property="nameLabel" destination="nlt-QQ-dFw" id="xOP-BL-S9I"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="LocationToDestination" id="k1N-3h-jRI"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -136,7 +139,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bgz-Y5-TmX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1816" y="413"/>
+            <point key="canvasLocation" x="132" y="697"/>
         </scene>
         <!--Setup a Destination-->
         <scene sceneID="tne-QT-ifu">
@@ -150,8 +153,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="dmK-bA-Xq5">
-                                <rect key="frame" x="20" y="307" width="560" height="83"/>
+                            <datePicker contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="5" translatesAutoresizingMaskIntoConstraints="NO" id="dmK-bA-Xq5">
+                                <rect key="frame" x="20" y="307" width="560" height="134"/>
                                 <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="83" id="rDL-EV-myK"/>
@@ -165,8 +168,8 @@
                                     <action selector="textFieldChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="6uV-sx-ucp"/>
                                 </connections>
                             </datePicker>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="JsG-r5-pC4">
-                                <rect key="frame" x="67" y="398" width="467" height="29"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="JsG-r5-pC4">
+                                <rect key="frame" x="61" y="449" width="467" height="29"/>
                                 <segments>
                                     <segment title="Once"/>
                                     <segment title="Weekly"/>
@@ -175,20 +178,7 @@
                                     <action selector="onceOrWeeklyControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="Pnd-A6-sgG"/>
                                 </connections>
                             </segmentedControl>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SdX-RN-VQn">
-                                <rect key="frame" x="20" y="563" width="560" height="29"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="29" id="rGu-FO-NGK"/>
-                                </constraints>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <action selector="saveTouchUpButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eXq-Kk-k0C"/>
-                                </connections>
-                            </button>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="CUo-re-wmk">
-                                <rect key="frame" x="20" y="72" width="560" height="178"/>
-                            </mapView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z1W-KR-FqH">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z1W-KR-FqH">
                                 <rect key="frame" x="20" y="258" width="560" height="41"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="41" id="RTt-et-DsN"/>
@@ -197,52 +187,55 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H2R-ss-fXI">
-                                <rect key="frame" x="194" y="434" width="212" height="30"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="CUo-re-wmk">
+                                <rect key="frame" x="20" y="72" width="560" height="178"/>
+                            </mapView>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H2R-ss-fXI">
+                                <rect key="frame" x="188" y="485" width="212" height="30"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pow-jb-zKK">
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pow-jb-zKK">
                                         <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                         <state key="normal" title="Sun"/>
                                         <connections>
                                             <action selector="sundayButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6xM-4y-J1w"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OR6-gi-uHf">
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OR6-gi-uHf">
                                         <rect key="frame" x="30" y="0.0" width="31" height="30"/>
                                         <state key="normal" title="Mon"/>
                                         <connections>
                                             <action selector="mondayButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="raQ-3B-FjJ"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R33-Dx-cUD">
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R33-Dx-cUD">
                                         <rect key="frame" x="61" y="0.0" width="30" height="30"/>
                                         <state key="normal" title="Tue"/>
                                         <connections>
                                             <action selector="tuesdayButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nsq-uG-Yue"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Psk-Tz-nWy">
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Psk-Tz-nWy">
                                         <rect key="frame" x="91" y="0.0" width="31" height="30"/>
                                         <state key="normal" title="Wed"/>
                                         <connections>
                                             <action selector="wednesdayButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9pQ-LY-QSO"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FA4-CC-osF">
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FA4-CC-osF">
                                         <rect key="frame" x="122" y="0.0" width="30" height="30"/>
                                         <state key="normal" title="Thu"/>
                                         <connections>
                                             <action selector="thursdayButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="E7R-xs-Sdi"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sDo-7a-uux">
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sDo-7a-uux">
                                         <rect key="frame" x="152" y="0.0" width="30" height="30"/>
                                         <state key="normal" title="Fri"/>
                                         <connections>
                                             <action selector="fridayButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="M0n-Yk-48o"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GIh-nH-cxp">
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GIh-nH-cxp">
                                         <rect key="frame" x="182" y="0.0" width="30" height="30"/>
                                         <state key="normal" title="Sat"/>
                                         <connections>
@@ -254,7 +247,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="SdX-RN-VQn" secondAttribute="bottom" constant="8" symbolic="YES" id="8Yr-hv-fcw"/>
                             <constraint firstItem="H2R-ss-fXI" firstAttribute="top" secondItem="JsG-r5-pC4" secondAttribute="bottom" constant="8" symbolic="YES" id="9L6-fx-UmE"/>
                             <constraint firstItem="dmK-bA-Xq5" firstAttribute="top" secondItem="Z1W-KR-FqH" secondAttribute="bottom" constant="8" symbolic="YES" id="ItV-AC-EOd"/>
                             <constraint firstItem="Z1W-KR-FqH" firstAttribute="top" secondItem="CUo-re-wmk" secondAttribute="bottom" constant="8" symbolic="YES" id="NdJ-Bf-59o"/>
@@ -262,7 +254,6 @@
                             <constraint firstItem="Z1W-KR-FqH" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="Vgx-OV-cMT"/>
                             <constraint firstItem="JsG-r5-pC4" firstAttribute="top" secondItem="dmK-bA-Xq5" secondAttribute="bottom" constant="8" symbolic="YES" id="bIm-0h-vGK"/>
                             <constraint firstItem="JsG-r5-pC4" firstAttribute="centerX" secondItem="dmK-bA-Xq5" secondAttribute="centerX" id="cS9-aE-GUX"/>
-                            <constraint firstItem="SdX-RN-VQn" firstAttribute="leading" secondItem="dmK-bA-Xq5" secondAttribute="leading" id="gKK-Wi-wHF"/>
                             <constraint firstItem="CUo-re-wmk" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="guM-Y7-McM"/>
                             <constraint firstItem="H2R-ss-fXI" firstAttribute="centerX" secondItem="JsG-r5-pC4" secondAttribute="centerX" id="icX-TL-7FE"/>
                             <constraint firstItem="Z1W-KR-FqH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="kU4-Ns-d5m"/>
@@ -270,16 +261,21 @@
                             <constraint firstItem="Z1W-KR-FqH" firstAttribute="leading" secondItem="CUo-re-wmk" secondAttribute="leading" id="pxb-xA-p4Q"/>
                             <constraint firstItem="CUo-re-wmk" firstAttribute="trailing" secondItem="Z1W-KR-FqH" secondAttribute="trailing" id="q4g-xa-WhY"/>
                             <constraint firstItem="JsG-r5-pC4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="47" id="sOI-xt-5oF"/>
-                            <constraint firstItem="SdX-RN-VQn" firstAttribute="top" secondItem="H2R-ss-fXI" secondAttribute="bottom" constant="99" id="vDo-Z9-mdq"/>
-                            <constraint firstItem="dmK-bA-Xq5" firstAttribute="trailing" secondItem="SdX-RN-VQn" secondAttribute="trailing" id="xfw-kY-bmk"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Setup a Destination" id="hnX-sv-qxw"/>
+                    <navigationItem key="navigationItem" title="Setup a Destination" id="hnX-sv-qxw">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="aPT-ic-t14">
+                            <connections>
+                                <segue destination="NM1-UQ-eIb" kind="unwind" unwindAction="unwindToDestinationList:" id="zCa-89-5m8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="datePicker" destination="dmK-bA-Xq5" id="v0i-EK-iPW"/>
                         <outlet property="destinationName" destination="Z1W-KR-FqH" id="leJ-ib-uJz"/>
                         <outlet property="mapView" destination="CUo-re-wmk" id="tzg-Kb-d4l"/>
                         <outlet property="onceOrWeeklyControl" destination="JsG-r5-pC4" id="x2U-MY-QqT"/>
+                        <outlet property="saveButton" destination="aPT-ic-t14" id="Wqi-wE-3aP"/>
                         <outletCollection property="arrivalDaysButtons" destination="pow-jb-zKK" collectionClass="NSMutableArray" id="sh4-sP-XtA"/>
                         <outletCollection property="arrivalDaysButtons" destination="OR6-gi-uHf" collectionClass="NSMutableArray" id="bYd-AQ-K6K"/>
                         <outletCollection property="arrivalDaysButtons" destination="R33-Dx-cUD" collectionClass="NSMutableArray" id="fwe-cA-SD1"/>
@@ -287,12 +283,12 @@
                         <outletCollection property="arrivalDaysButtons" destination="FA4-CC-osF" collectionClass="NSMutableArray" id="4SK-zL-2gw"/>
                         <outletCollection property="arrivalDaysButtons" destination="sDo-7a-uux" collectionClass="NSMutableArray" id="7py-5i-Ap5"/>
                         <outletCollection property="arrivalDaysButtons" destination="GIh-nH-cxp" collectionClass="NSMutableArray" id="OrD-a8-SNi"/>
-                        <segue destination="qgP-0v-t7N" kind="show" identifier="SaveDestination" id="NNb-Me-lJI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="NM1-UQ-eIb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3343" y="429"/>
+            <point key="canvasLocation" x="1547" y="185"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="eGh-Jy-qSL">
@@ -310,7 +306,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qcv-Kd-1t1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-527" y="429"/>
+            <point key="canvasLocation" x="-1287" y="167"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="LtO-MJ-Lja">
@@ -328,7 +324,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xk1-Lm-QRG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1062" y="787"/>
+            <point key="canvasLocation" x="-590" y="1015"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="KMv-z2-huD">
@@ -346,12 +342,11 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fjo-Cp-gE9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2593" y="806"/>
+            <point key="canvasLocation" x="857" y="1046"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="QfU-Hd-KpN"/>
         <segue reference="4Bm-mq-3Qp"/>
-        <segue reference="NNb-Me-lJI"/>
+        <segue reference="k1N-3h-jRI"/>
     </inferredMetricsTieBreakers>
 </document>

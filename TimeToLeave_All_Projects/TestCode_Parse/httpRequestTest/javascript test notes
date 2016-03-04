@@ -1,0 +1,61 @@
+
+
+http://www.w3schools.com/js/js_json.asp
+http://www.webtoolkitonline.com/javascript-tester.html
+
+
+w3 example of creating and parsing an object:
+
+var text = '{ "employees" : [' +
+'{ "firstName":"John" , "lastName":"Doe" },' +
+'{ "firstName":"Anna" , "lastName":"Smith" },' +
+'{ "firstName":"Peter" , "lastName":"Jones" } ]}';
+
+var obj = JSON.parse(text);
+
+
+<p id="demo"></p>
+
+<script>
+document.getElementById("demo").innerHTML =
+obj.employees[1].firstName + " " + obj.employees[1].lastName;
+</script>
+
+
+var arrayTest1 = '{ "distance" : { "text":"20.8 mi" , "value":"33430"} }';
+var obj = JSON.parse(arrayTest1);
+obj.distance.text;
+
+
+
+var arrayTest2 = '[{ "distance" : { "text":"20.8 mi" , "value":"33430"} } , { "duration" : { "text":"29 mins" , "value":"1758"} } , {"status":"OK"}]';
+var obj = JSON.parse(arrayTest2);
+obj[0].distance.text;
+
+
+// Pretty
+var arrayTest3 = '{
+                    "destination_addresses": [
+                          "701 1st St, Sunnyvale, CA 94089, USA"
+                    ],
+                    "origin_addresses": [
+                          "2043 Mezes Ave, Belmont, CA 94002, USA"
+                    ],
+                    "rows": [
+                      {
+                        "elements": [
+                          {
+                            "distance" : { "text":"20.8 mi" , "value":"33430"},
+                            "duration" : { "text":"29 mins" , "value":"1758"},
+                            "status":"OK"
+                          }
+                        ]
+                      }
+                    ],
+                    "status": "OK"
+                  }';
+
+// Useful
+var arrayTest3 = '{"destination_addresses": ["701 1st St, Sunnyvale, CA 94089, USA"],"origin_addresses": ["2043 Mezes Ave, Belmont, CA 94002, USA"],"rows": [{"elements": [{"distance" : { "text":"20.8 mi" , "value":"33430"},"duration" : { "text":"29 mins" , "value":"1758"},"status":"OK"}]}],"status": "OK"}';
+var obj = JSON.parse(arrayTest3);
+obj.rows[0].elements[0].duration.text;

@@ -1,0 +1,6 @@
+curl -X POST \
+-H "X-Parse-Application-Id: ELiMjTAKrakTPiiXFCoiKaVcrGp34mUvJFUPAUsk" \
+-H "X-Parse-REST-API-Key: NZXHk8ufLduYNTqocn0h1Cv8xnh1BEEtLKuY958E" \
+-H "Content-Type: application/json" \
+-d '{}' \
+https://api.parse.com/1/functions/httpRequestTest

@@ -1,5 +1,260 @@
-{\rtf1\ansi\ansicpg1252\cocoartf949
-{\fonttbl}
-{\colortbl;\red255\green255\blue255;}
+{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green116\blue0;\red92\green38\blue153;\red170\green13\blue145;
+\red63\green110\blue116;\red46\green13\blue110;\red28\green0\blue207;\red196\green26\blue22;\red14\green14\blue255;
+}
 \margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\deftab529
+\pard\tx529\pardeftab529\pardirnatural
+
+\f0\fs22 \cf2 \CocoaLigature0 Notes to self 3.2.2016:\
+\
+Remember to commit frequently:\
+https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository\
+git commit -m "Comment for the commit"\
+git push origin master\
+\
+\
+Quick note:\
+[Done] Updating the Destination object to use MKMapItem instead of a separate set of names and coordinates\
+\
+\
+\
+\
+\
+App Navigation\
+\
+1) Login/Sign-in Flow: Need to add these views (derived from AWS)\
+2) DestinationTableViewController: This is the main view to see time to leave at a glance, and add/remove destinations\
+3) LocationTableViewController: This is where you search through locations to find a destination\
+4) DestinationViewController: This is where you set the additional attributes of your destination after searching for the location (e.g.time to arrive, repeats, etc)\
+\
+\
+Login:\
+\
+1) Figure out how to implement Login via AWS\
+\
+\
+DestinationTableViewController:\
+\
+1) [Done] Add code to populate the Table\
+2) [Done] Add code to edit entries\
+3) [Done] Add code to delete entries\
+3) Add code to return to login/logout\
+4) Update the design of the cells (include time to leave, and sort by time to leave)\
+\
+\
+\
+LocationTableViewController:\
+\
+1) [Done] Add code for the button on a search item to take you to the DestinationViewController\
+2) [Done] Add code to make sure any touch on a cell selects the cell\
+3) Remember to update LocationTableViewController to get the user's location and use that to set the \cf0 request.\cf3 region\cf0  for search\cf2 \
+\
+\
+\
+DestinationViewController:\
+\
+1) [Done] Remove search bar and related code\
+2) [Done] Add code to save a destination\
+3) [Done] Add code to return to DestinationTableViewController (back)\
+4) Add mode of transportation buttons\
+5) Add code to save a different name to the destination\
+6) [Done] Update date picker to go by 5 minute increments, and be bigger, and fix its initialization so it gets the real arrival time\
+7) Add code to return to search (clicking on map)\
+8) Sort out the code for managing each destination's location manager and for tracking user location\
+\
+\
+\
+\
+\
+\
+LocationManager:\
+\
+\
+1) Create the delegate method to handle asking for authorization, and doing something logical if authorization is declined and call the locationServicesEnabled class method of CLLocationManager before attempting to start any location services\
+\
+\
+2a) Implement the didUpdateLocations delegate method and the didFailWithError delegate method\
+2b) Implement the locationManagerDidPauseLocationUpdates delegate method and the locationManagerDidResumeLocationUpdates delegate method\
+\
+\
+3) Implement locationManager.requestLocation() when creating a new destination (DestinationViewController)\
+\
+\
+4) Implement background locationManager.startMonitoringSignificantLocationChanges() to track location of the user for knowing the start location for measuring travel times (in the User Object) - Consider adding start and end times for each destination so this only runs when needed.  Also You can determine whether your app can process location updates in the background by checking the value of the backgroundRefreshStatus property of the UIApplication class.\
+\
+\
+5) Implement startMonitoringVisits and locationManager.didVisit to record when the user enters and exits each destination for optimization of recommendations (Destination)\
+\
+\
+6) Take a look at implementing  allowDeferredLocationUpdatesUntilTraveled:timeout: to save energy (for the background location services)\
+\
+7) Create the code to configure a new location manager object and delegate and start location services again if the app is relaunched with the UIApplicationLaunchOptionsLocationKey in the options dictionary (AppDelegate)\
+\
+\
+\
+\
+// Old code from DestinationViewController\
+\
+\
+\
+\cf4 class\cf0  DestinationViewController: \cf3 UIViewController\cf0 , \cf3 CLLocationManagerDelegate\cf0 , \cf3 MKMapViewDelegate\cf0  \{\
+    \
+    \cf2 // MARK: Properties\
+\cf0     \cf4 @IBOutlet\cf0  \cf4 weak\cf0  \cf4 var\cf0  mapView: \cf3 MKMapView\cf0 !\
+    \cf4 @IBOutlet\cf0  \cf4 weak\cf0  \cf4 var\cf0  destinationName: \cf3 UILabel\cf0 !\
+    \cf4 @IBOutlet\cf0  \cf4 weak\cf0  \cf4 var\cf0  datePicker: \cf3 UIDatePicker\cf0 !\
+\
+    \
+    \cf2 var locationManager: CLLocationManager!\
+\cf0     \cf2 var regionRadius: CLLocationDistance = 1000\
+\cf0     \cf2 var matchingItems: [MKMapItem] = [MKMapItem]()\
+\cf0     \
+    \cf2 // Variables for creating a destination\
+\cf0     \cf4 var\cf0  destinationDate = \cf3 NSDate\cf0 ()\
+    \cf4 var\cf0  destinationTime: [\cf3 Int\cf0 ]?\
+    \cf2 //var searchLocation: CLLocationCoordinate2D?\
+\cf0     \cf4 var\cf0  inputLocation: \cf3 MKMapItem\cf0 ?\
+    \cf4 var\cf0  destination: \cf5 Destination\cf0 ?\
+    \
+    \
+    \cf4 override\cf0  \cf4 func\cf0  viewDidLoad() \{\
+        \cf4 super\cf0 .\cf6 viewDidLoad\cf0 ()\
+\
+        \
+        \cf2 // Create a location manager object\
+\cf0         \cf2 locationManager = CLLocationManager()\
+\cf0         \
+        \cf2 // Set the location manager delegate\
+\cf0         \cf2 locationManager.delegate = self\
+\cf0         \
+        \cf2 // Request location authorization (note: don't need "Always" for this class, but need it for the app)\
+\cf0         \cf2 locationManager.requestAlwaysAuthorization()\
+\cf0         \
+        \cf2 // Set location accuracy to Best for creating new destinations\
+\cf0         \cf2 locationManager.desiredAccuracy = kCLLocationAccuracyBest\
+\cf0         \
+        \cf2 // mapview setup to show user location\
+\cf0         \cf5 mapView\cf0 .\cf3 delegate\cf0  = \cf4 self\cf0 \
+        \cf5 mapView\cf0 .\cf3 showsUserLocation\cf0  = \cf4 true\cf0 \
+        \cf5 mapView\cf0 .\cf3 mapType\cf0  = \cf3 MKMapType\cf0 (rawValue: \cf7 0\cf0 )!\
+        \
+        \cf2 // Request the current location\
+\cf0         \cf2 locationManager.requestLocation()\
+\cf0         \
+\
+        \
+    \}\
+\cf2 \
+\
+\cf0     \cf2 // MARK: CLLocationManagerDelegates\
+\cf0     \cf4 func\cf0  destinationViewControllerLocationManager(manager: \cf3 CLLocationManager\cf0 , didChangeAuthorizationStatus status: \cf3 CLAuthorizationStatus\cf0 ) \{\
+        \
+        \cf4 if\cf0  status == .\cf6 AuthorizedAlways\cf0  \{\
+            \cf2 // do stuff when location services authorized\
+\cf0         \
+        \} \cf4 else\cf0  \{\
+            \cf2 // do stuff when location services denied\
+\cf0         \}\
+    \}\
+    \
+    \cf2 // didFailWithError Delegate\
+\cf0     \cf4 func\cf0  locationManager(manager: \cf3 CLLocationManager\cf0 , didFailWithError error: \cf3 NSError\cf0 ) \{\
+        \cf4 if\cf0  error.\cf3 code\cf0  == \cf3 CLError\cf0 .\cf6 Denied\cf0 .\cf3 rawValue\cf0  \{\
+            manager.\cf6 stopUpdatingLocation\cf0 ()\
+            \cf6 print\cf0 (\cf8 "Location Denied"\cf0 )\
+        \}\
+    \}\
+    \
+    \cf2 // didUpdateLocations Delegate\
+\cf0     \cf4 func\cf0  locationManager(manager: \cf3 CLLocationManager\cf0 , didUpdateLocations locations: [\cf3 CLLocation\cf0 ]) \{\
+        \cf6 print\cf0 (\cf8 "Location: "\cf0 , locations)\
+        \cf2 //let location = locations.last! as CLLocation\
+\cf0         \cf2 //centerMapOnLocation(location)\
+\cf0     \}\
+\cf2 \
+\
+\
+\
+\
+\cf0     \
+    \cf4 func\cf0  startBackgroundLocationMonitoring() \{\
+        \
+        \cf2 // Create a location manager object\
+\cf0         \cf5 locationManager\cf0  = \cf3 CLLocationManager\cf0 ()\
+        \
+        \cf2 // Set the delegate\
+\cf0         \cf5 locationManager\cf0 .\cf3 delegate\cf0  = \cf4 self\cf0 \
+        \
+        \cf2 // Request location authorization\
+\cf0         \cf5 locationManager\cf0 .\cf6 requestAlwaysAuthorization\cf0 ()\
+        \
+        \cf2 // Set an accuracy level.  The bigger the distance, the better the energy savings\
+\cf0         \cf5 locationManager\cf0 .\cf3 desiredAccuracy\cf0  = \cf3 kCLLocationAccuracyKilometer\cf0 \
+        \
+        \cf2 // Set a distance filter (in meters) - only needed for update method\
+\cf0         \cf2 //locationManager.distanceFilter = 500\
+\cf0         \
+        \cf2 // Enable automatic pausing\
+\cf0         \cf5 locationManager\cf0 .\cf3 pausesLocationUpdatesAutomatically\cf0  = \cf4 true\cf0 \
+        \
+        \cf2 // Specify that the app is tracking automotive navigation\
+\cf0         \cf5 locationManager\cf0 .\cf3 activityType\cf0  = \cf3 CLActivityType\cf0 .\cf6 AutomotiveNavigation\cf0 \
+        \
+        \cf2 // Enable background location updates\
+\cf0         \cf5 locationManager\cf0 .\cf3 allowsBackgroundLocationUpdates\cf0  = \cf4 true\cf0 \
+        \
+        \cf2 // Start location monitoring to track when user changes location\
+\cf0         \cf5 locationManager\cf0 .\cf6 startMonitoringSignificantLocationChanges\cf0 ()\
+        \
+        \
+        \
+    \}\
+\
+\
+\
+\cf2 \
+General References:\
+\
+\
+Location Based Services Guide:\
+\pard\tx529\pardeftab529\pardirnatural
+{\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/LocationAwarenessPG/CoreLocation/CoreLocation.html"}}{\fldrslt \cf9 https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/LocationAwarenessPG/CoreLocation/CoreLocation.html}}\
+\
+Energy Efficiency Guide: {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/ios/documentation/Performance/Conceptual/EnergyGuide-iOS/LocationBestPractices.html#//apple_ref/doc/uid/TP40015243-CH24"}}{\fldrslt \cf9 https://developer.apple.com/library/ios/documentation/Performance/Conceptual/EnergyGuide-iOS/LocationBestPractices.html#//apple_ref/doc/uid/TP40015243-CH24}}\
+\
+Good tutorial for MapKit and Map Searches:\
+\pard\tx529\pardeftab529\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://www.thorntech.com/2016/01/how-to-search-for-location-using-apples-mapkit/"}}{\fldrslt \cf9 http://www.thorntech.com/2016/01/how-to-search-for-location-using-apples-mapkit/}}\
+\
+\pard\tx529\pardeftab529\pardirnatural
+\cf0 \
+\
+\
+Test File Issues:\
+    \
+    \cf2 /*\
+    , CLLocationManagerDelegate \{\
+    // MARK: TimeToLeave Tests\
+    \
+    // Test to confirm that the Destination initializer works correctly\
+    func testDestinationInitialization() \{\
+    \
+    // Test Variables\
+    let successTestName = "testName"\
+    let successTestCoordinate = CLLocationCoordinate2D(latitude: -122.03121860, longitude: +37.33233141)\
+    let successTestTime = NSDate()\
+    \
+    // Success case\
+    let potentialDestination = Destination(name: successTestName, coordinate: successTestCoordinate, arrivalTime: successTestTime)\
+    XCTAssertNotNil(potentialDestination)\
+    \
+    // Failure cases\
+    let noName = Destination(name: "", coordinate: successTestCoordinate, arrivalTime: successTestTime)\
+    XCTAssertNil(noName)\
+    \}\
+    \}\
+\
+*/\cf0 \
 }

@@ -7,12 +7,25 @@
 //
 
 import UIKit
+import MapKit
 
-class LocationTableViewCell: UITableViewCell {
+class LocationTableViewCell: UITableViewCell, MKMapViewDelegate {
+    
+    // MARK: Porperties
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var mapView: MKMapView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        // mapview setup to show user location
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        mapView.mapType = MKMapType(rawValue: 0)!
+        mapView.scrollEnabled = false
+        mapView.zoomEnabled = false
+        //mapView.userInteractionEnabled = false
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
