@@ -33,6 +33,7 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
             destinations += savedDestinations
         } else {
             // Put something here for cold start
+            print("No saved destinations")
         }
         
         // Uncomment the following line to preserve selection between presentations
@@ -183,7 +184,11 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
                 let newIndexPath = NSIndexPath(forRow: destinations.count, inSection: 0)
                 destinations.append(destination)
                 tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
+
             }
+            
+            // Update the saved copy of destinations
+            saveDestinations()
         }
     }
     

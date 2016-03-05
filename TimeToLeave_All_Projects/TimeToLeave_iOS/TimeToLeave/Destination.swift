@@ -9,6 +9,7 @@
 
 import CoreLocation
 import MapKit
+import Contacts
 
 class Destination: CLLocationManager, MKMapViewDelegate, NSCoding {
     
@@ -27,7 +28,10 @@ class Destination: CLLocationManager, MKMapViewDelegate, NSCoding {
     // MARK: Types
     struct PropertyKey {
 
-        static let destinationMapItemKey = "destinationMapItem"
+        static let destinationMapItemPlacemarkKey = "destinationMapItemPlacemark"
+        static let destinationMapItemNameKey = "destinationMapItemName"
+        static let destinationMapItemPhoneNumberKey = "destinationMapItemPhoneNumber"
+        static let destinationMapItemUrlKey = "destinationMapItemUrl"
         static let arrivalTimeKey = "arrivalTime"
         static let arrivalDaysKey = "arrivalDays"
         static let weeklyTripKey = "weeklyTrip"
@@ -88,10 +92,25 @@ class Destination: CLLocationManager, MKMapViewDelegate, NSCoding {
     // MARK: NSCoding
     func encodeWithCoder(aCoder: NSCoder){
 
-        aCoder.encodeObject(arrivalDays, forKey: PropertyKey.arrivalDaysKey)
+        /*
+        let addressDictionary = [String(CNPostalAddressStreetKey): destinationMapItem?.name]
+        let placemark = MKPlacemark(coordinate: mapView.region.center, addressDictionary: addressDictionary)
+        let mapItem = MKMapItem(placemark: placemark)
+        thisDestination = Destination(destinationMapItem: mapItem, arrivalTime: arrivalTime)
+        */
+        print("Line to pause while checking out objects")
+        
+        
+        aCoder.encodeObject(destinationMapItem?.placemark, forKey: PropertyKey.destinationMapItemPlacemarkKey)
+        //aCoder.encodeObject(destinationMapItem?.name, forKey: PropertyKey.destinationMapItemNameKey)
+        //aCoder.encodeObject(destinationMapItem?.phoneNumber, forKey: PropertyKey.destinationMapItemPhoneNumberKey)
+        //aCoder.encodeObject(destinationMapItem?.url, forKey: PropertyKey.destinationMapItemUrlKey)
+        
         aCoder.encodeObject(dateToString(arrivalTime), forKey: PropertyKey.arrivalTimeKey)
+        aCoder.encodeObject(arrivalDays, forKey: PropertyKey.arrivalDaysKey)
         aCoder.encodeBool(weeklyTrip, forKey: PropertyKey.weeklyTripKey)
-        aCoder.encodeObject(destinationMapItem, forKey: PropertyKey.destinationMapItemKey)
+        //aCoder.encodeObject(destinationMapItem, forKey: PropertyKey.destinationMapItemKey)
+
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -105,7 +124,11 @@ class Destination: CLLocationManager, MKMapViewDelegate, NSCoding {
         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
         let arrivalTime = dateFormatter.dateFromString(aDecoder.decodeObjectForKey(PropertyKey.arrivalTimeKey) as! String)
         
-        let destinationMapItem = aDecoder.decodeObjectForKey(PropertyKey.destinationMapItemKey) as! MKMapItem
+        
+        let destinationPlacemark = aDecoder.decodeObjectForKey(PropertyKey.destinationMapItemPlacemarkKey) as! MKPlacemark
+        let destinationMapItem = MKMapItem(placemark: destinationPlacemark)
+        
+        //let destinationMapItem = aDecoder.decodeObjectForKey(PropertyKey.destinationMapItemKey) as! MKMapItem
 
         // Must call designated initilizer.
         self.init(destinationMapItem: destinationMapItem, arrivalTime: arrivalTime!, arrivalDays: arrivalDays, weeklyTrip: weeklyTrip)
