@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC59DBE65E9BD7BBB583E5B7 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62BEC2F89A21428580AE302D /* Pods.framework */; };
 		DA1AD7201C585F3100458E2F /* DestinationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AD71F1C585F3100458E2F /* DestinationTableViewCell.swift */; };
 		DA464EF31C624494007FF204 /* LocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA464EF21C624494007FF204 /* LocationTableViewController.swift */; };
 		DA4CC7C11C58920B00F5A079 /* DestinationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4CC7C01C58920B00F5A079 /* DestinationTableViewController.swift */; };
@@ -33,6 +34,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		62BEC2F89A21428580AE302D /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		851869870E1B53F81D67C06C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DA1AD71F1C585F3100458E2F /* DestinationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationTableViewCell.swift; sourceTree = "<group>"; };
 		DA464EF21C624494007FF204 /* LocationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationTableViewController.swift; sourceTree = "<group>"; };
 		DA4CC7C01C58920B00F5A079 /* DestinationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationTableViewController.swift; sourceTree = "<group>"; };
@@ -40,6 +43,7 @@
 		DA7527C71C4D323D00679032 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		DA7527C91C4D692200679032 /* Notes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
 		DA7527CB1C4D928700679032 /* Destination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
+		DA85BE091CA19991009B7732 /* TimeToLeave-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TimeToLeave-Bridging-Header.h"; sourceTree = "<group>"; };
 		DA9B9EB21C4C0D1100B107D5 /* TimeToLeave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeToLeave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA9B9EB51C4C0D1100B107D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA9B9EB71C4C0D1100B107D5 /* DestinationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +53,7 @@
 		DA9B9EC61C4C0D1100B107D5 /* TimeToLeaveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TimeToLeaveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA9B9ECC1C4C0D1100B107D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAD079F41C7CA90B00D20065 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		FADC055493FB94DA54A248E7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +62,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA7527C81C4D323D00679032 /* MapKit.framework in Frameworks */,
+				CC59DBE65E9BD7BBB583E5B7 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +76,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F041AB00D14F3FFCF491E54 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				62BEC2F89A21428580AE302D /* Pods.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BE21E6CB632FAB6F98D09F7F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				851869870E1B53F81D67C06C /* Pods.debug.xcconfig */,
+				FADC055493FB94DA54A248E7 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		DA9B9EA91C4C0D1100B107D5 = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +100,8 @@
 				DA9B9EB41C4C0D1100B107D5 /* TimeToLeave */,
 				DA9B9EC91C4C0D1100B107D5 /* TimeToLeaveTests */,
 				DA9B9EB31C4C0D1100B107D5 /* Products */,
+				BE21E6CB632FAB6F98D09F7F /* Pods */,
+				6F041AB00D14F3FFCF491E54 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -93,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				DA9B9EB51C4C0D1100B107D5 /* AppDelegate.swift */,
+				DA85BE091CA19991009B7732 /* TimeToLeave-Bridging-Header.h */,
 				DAD079F41C7CA90B00D20065 /* Main.storyboard */,
 				DA4CC7C01C58920B00F5A079 /* DestinationTableViewController.swift */,
 				DA1AD71F1C585F3100458E2F /* DestinationTableViewCell.swift */,
@@ -123,9 +149,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA9B9ECF1C4C0D1100B107D5 /* Build configuration list for PBXNativeTarget "TimeToLeave" */;
 			buildPhases = (
+				1D4C398525E4A05CF5B2BB92 /* Check Pods Manifest.lock */,
 				DA9B9EAE1C4C0D1100B107D5 /* Sources */,
 				DA9B9EAF1C4C0D1100B107D5 /* Frameworks */,
 				DA9B9EB01C4C0D1100B107D5 /* Resources */,
+				00D63AB9E098664862F69E08 /* Embed Pods Frameworks */,
+				B8655AC1C4610401FDE44836 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -220,6 +249,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		00D63AB9E098664862F69E08 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1D4C398525E4A05CF5B2BB92 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B8655AC1C4610401FDE44836 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DA9B9EAE1C4C0D1100B107D5 /* Sources */ = {
@@ -351,23 +428,27 @@
 		};
 		DA9B9ED01C4C0D1100B107D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 851869870E1B53F81D67C06C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TimeToLeave/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.TimeToLeave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TimeToLeave/TimeToLeave-Bridging-Header.h";
 			};
 			name = Debug;
 		};
 		DA9B9ED11C4C0D1100B107D5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FADC055493FB94DA54A248E7 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TimeToLeave/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.TimeToLeave;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TimeToLeave/TimeToLeave-Bridging-Header.h";
 			};
 			name = Release;
 		};
