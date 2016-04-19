@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import AWSCore
+import AWSCognito
+import AWSDynamoDB
+
 
 class DestinationTableViewController: UITableViewController, UISearchBarDelegate {
     
@@ -15,6 +19,12 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
     
     // MARK: Properties
     var destinations = [Destination]()
+    
+    // Initialize the Cognito Sync client and dataset
+    let syncClient = AWSCognito.defaultCognito()    
+    
+    // Initialize the AWS Dynamo DB Object Mapper
+    let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.defaultDynamoDBObjectMapper()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -192,12 +202,40 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
-    // MARK: NSCoding
+    // MARK: Saving and Loading Destinations
     func saveDestinations(){
+        
+        // Save locally to the client via NSKeyedArchiver
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(destinations, toFile: Destination.ArchiveURL.path!)
         if !isSuccessfulSave {
             print("Failed to save destinations...")
         }
+        
+        // Save each destination to AWS
+        for destination in destinations {
+            
+            print("Preparing to save: ", destination.destinationMapItem!.name)
+            print("dynamoDBObjectMapper.description: ", dynamoDBObjectMapper.description)
+            dynamoDBObjectMapper.save(destination)
+
+           
+            //dynamoDBObjectMapper.load(<#T##resultClass: AnyClass!##AnyClass!#>, hashKey: <#T##AnyObject!#>, rangeKey: <#T##AnyObject!#>)
+            //dynamoDBObjectMapper.save(<#T##model: AWSDynamoDBModel!##AWSDynamoDBModel!#>)
+            
+            /*
+            aCoder.encodeObject(destinationMapItem?.placemark, forKey: PropertyKey.destinationMapItemPlacemarkKey)
+           
+            aCoder.encodeObject(dateToString(arrivalTime), forKey: PropertyKey.arrivalTimeKey)
+            aCoder.encodeObject(arrivalDays, forKey: PropertyKey.arrivalDaysKey)
+            aCoder.encodeBool(weeklyTrip, forKey: PropertyKey.weeklyTripKey)
+            */
+            
+
+            
+        }
+        
+
+    
     }
     
     func loadDestinations() -> [Destination]? {

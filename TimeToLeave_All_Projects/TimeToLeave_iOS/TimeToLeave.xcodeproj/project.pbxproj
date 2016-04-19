@@ -9,18 +9,25 @@
 /* Begin PBXBuildFile section */
 		CC59DBE65E9BD7BBB583E5B7 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62BEC2F89A21428580AE302D /* Pods.framework */; };
 		DA1AD7201C585F3100458E2F /* DestinationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1AD71F1C585F3100458E2F /* DestinationTableViewCell.swift */; };
+		DA3AEEEA1CA2D7FF00405848 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3AEEE91CA2D7FF00405848 /* LoginViewController.swift */; };
 		DA464EF31C624494007FF204 /* LocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA464EF21C624494007FF204 /* LocationTableViewController.swift */; };
+		DA4BA4E81CA582CF00EEBEB7 /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4BA4E71CA582CF00EEBEB7 /* Crypto.m */; };
+		DA4BA4EC1CA58A8D00EEBEB7 /* DeveloperAuthenticatedIdentityProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4BA4EB1CA58A8D00EEBEB7 /* DeveloperAuthenticatedIdentityProvider.m */; };
+		DA4BA4EF1CA58AD400EEBEB7 /* DeveloperAuthenticationClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4BA4EE1CA58AD400EEBEB7 /* DeveloperAuthenticationClient.m */; };
 		DA4CC7C11C58920B00F5A079 /* DestinationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4CC7C01C58920B00F5A079 /* DestinationTableViewController.swift */; };
 		DA4CC7C31C59137E00F5A079 /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4CC7C21C59137E00F5A079 /* LocationTableViewCell.swift */; };
 		DA7527C81C4D323D00679032 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA7527C71C4D323D00679032 /* MapKit.framework */; };
 		DA7527CA1C4D692200679032 /* Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DA7527C91C4D692200679032 /* Notes.rtf */; };
 		DA7527CC1C4D928700679032 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7527CB1C4D928700679032 /* Destination.swift */; };
 		DA7527CD1C4D928700679032 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7527CB1C4D928700679032 /* Destination.swift */; };
+		DA9211971CC5D71B00B0FB38 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9211961CC5D71B00B0FB38 /* Constants.swift */; };
 		DA9B9EB61C4C0D1100B107D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9B9EB51C4C0D1100B107D5 /* AppDelegate.swift */; };
 		DA9B9EB81C4C0D1100B107D5 /* DestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9B9EB71C4C0D1100B107D5 /* DestinationViewController.swift */; };
 		DA9B9EBD1C4C0D1100B107D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA9B9EBC1C4C0D1100B107D5 /* Assets.xcassets */; };
 		DA9B9EC01C4C0D1100B107D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA9B9EBE1C4C0D1100B107D5 /* LaunchScreen.storyboard */; };
 		DAD079F51C7CA90B00D20065 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAD079F41C7CA90B00D20065 /* Main.storyboard */; };
+		DAF5B80A1CA43CBA0008BA95 /* AmazonClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF5B8091CA43CBA0008BA95 /* AmazonClientManager.swift */; };
+		DAF5B80C1CA43CFE0008BA95 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF5B80B1CA43CFE0008BA95 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,13 +44,21 @@
 		62BEC2F89A21428580AE302D /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		851869870E1B53F81D67C06C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DA1AD71F1C585F3100458E2F /* DestinationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationTableViewCell.swift; sourceTree = "<group>"; };
+		DA3AEEE91CA2D7FF00405848 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DA464EF21C624494007FF204 /* LocationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationTableViewController.swift; sourceTree = "<group>"; };
+		DA4BA4E71CA582CF00EEBEB7 /* Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Crypto.m; sourceTree = "<group>"; };
+		DA4BA4E91CA5830500EEBEB7 /* Crypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Crypto.h; sourceTree = "<group>"; };
+		DA4BA4EA1CA58A5400EEBEB7 /* DeveloperAuthenticatedIdentityProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeveloperAuthenticatedIdentityProvider.h; sourceTree = "<group>"; };
+		DA4BA4EB1CA58A8D00EEBEB7 /* DeveloperAuthenticatedIdentityProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeveloperAuthenticatedIdentityProvider.m; sourceTree = "<group>"; };
+		DA4BA4ED1CA58AB500EEBEB7 /* DeveloperAuthenticationClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeveloperAuthenticationClient.h; sourceTree = "<group>"; };
+		DA4BA4EE1CA58AD400EEBEB7 /* DeveloperAuthenticationClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeveloperAuthenticationClient.m; sourceTree = "<group>"; };
 		DA4CC7C01C58920B00F5A079 /* DestinationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationTableViewController.swift; sourceTree = "<group>"; };
 		DA4CC7C21C59137E00F5A079 /* LocationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
 		DA7527C71C4D323D00679032 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		DA7527C91C4D692200679032 /* Notes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
 		DA7527CB1C4D928700679032 /* Destination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
 		DA85BE091CA19991009B7732 /* TimeToLeave-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TimeToLeave-Bridging-Header.h"; sourceTree = "<group>"; };
+		DA9211961CC5D71B00B0FB38 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = ../../../../gitOut/TimeToLeave_All_Projects/TimeToLeave_iOS/TimeToLeave/Constants.swift; sourceTree = "<group>"; };
 		DA9B9EB21C4C0D1100B107D5 /* TimeToLeave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeToLeave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA9B9EB51C4C0D1100B107D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA9B9EB71C4C0D1100B107D5 /* DestinationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +68,8 @@
 		DA9B9EC61C4C0D1100B107D5 /* TimeToLeaveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TimeToLeaveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA9B9ECC1C4C0D1100B107D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAD079F41C7CA90B00D20065 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		DAF5B8091CA43CBA0008BA95 /* AmazonClientManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmazonClientManager.swift; sourceTree = "<group>"; };
+		DAF5B80B1CA43CFE0008BA95 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FADC055493FB94DA54A248E7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,6 +110,19 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		DA4BA4E61CA5829700EEBEB7 /* DeveloperAuthenticated */ = {
+			isa = PBXGroup;
+			children = (
+				DA4BA4E71CA582CF00EEBEB7 /* Crypto.m */,
+				DA4BA4E91CA5830500EEBEB7 /* Crypto.h */,
+				DA4BA4EA1CA58A5400EEBEB7 /* DeveloperAuthenticatedIdentityProvider.h */,
+				DA4BA4EB1CA58A8D00EEBEB7 /* DeveloperAuthenticatedIdentityProvider.m */,
+				DA4BA4ED1CA58AB500EEBEB7 /* DeveloperAuthenticationClient.h */,
+				DA4BA4EE1CA58AD400EEBEB7 /* DeveloperAuthenticationClient.m */,
+			);
+			name = DeveloperAuthenticated;
+			sourceTree = "<group>";
+		};
 		DA9B9EA91C4C0D1100B107D5 = {
 			isa = PBXGroup;
 			children = (
@@ -120,14 +150,19 @@
 				DA9B9EB51C4C0D1100B107D5 /* AppDelegate.swift */,
 				DA85BE091CA19991009B7732 /* TimeToLeave-Bridging-Header.h */,
 				DAD079F41C7CA90B00D20065 /* Main.storyboard */,
+				DA3AEEE91CA2D7FF00405848 /* LoginViewController.swift */,
+				DAF5B8091CA43CBA0008BA95 /* AmazonClientManager.swift */,
+				DAF5B80B1CA43CFE0008BA95 /* Constants.swift */,
 				DA4CC7C01C58920B00F5A079 /* DestinationTableViewController.swift */,
 				DA1AD71F1C585F3100458E2F /* DestinationTableViewCell.swift */,
 				DA464EF21C624494007FF204 /* LocationTableViewController.swift */,
 				DA4CC7C21C59137E00F5A079 /* LocationTableViewCell.swift */,
 				DA9B9EB71C4C0D1100B107D5 /* DestinationViewController.swift */,
 				DA7527CB1C4D928700679032 /* Destination.swift */,
+				DA9211961CC5D71B00B0FB38 /* Constants.swift */,
 				DA7527C91C4D692200679032 /* Notes.rtf */,
 				DA9B9EBC1C4C0D1100B107D5 /* Assets.xcassets */,
+				DA4BA4E61CA5829700EEBEB7 /* DeveloperAuthenticated */,
 				DA9B9EBE1C4C0D1100B107D5 /* LaunchScreen.storyboard */,
 				DA9B9EC11C4C0D1100B107D5 /* Info.plist */,
 			);
@@ -304,11 +339,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA4CC7C31C59137E00F5A079 /* LocationTableViewCell.swift in Sources */,
+				DA4BA4EC1CA58A8D00EEBEB7 /* DeveloperAuthenticatedIdentityProvider.m in Sources */,
 				DA9B9EB81C4C0D1100B107D5 /* DestinationViewController.swift in Sources */,
+				DA4BA4EF1CA58AD400EEBEB7 /* DeveloperAuthenticationClient.m in Sources */,
+				DA4BA4E81CA582CF00EEBEB7 /* Crypto.m in Sources */,
 				DA9B9EB61C4C0D1100B107D5 /* AppDelegate.swift in Sources */,
 				DA1AD7201C585F3100458E2F /* DestinationTableViewCell.swift in Sources */,
+				DA3AEEEA1CA2D7FF00405848 /* LoginViewController.swift in Sources */,
+				DAF5B80C1CA43CFE0008BA95 /* Constants.swift in Sources */,
 				DA7527CC1C4D928700679032 /* Destination.swift in Sources */,
 				DA4CC7C11C58920B00F5A079 /* DestinationTableViewController.swift in Sources */,
+				DA9211971CC5D71B00B0FB38 /* Constants.swift in Sources */,
+				DAF5B80A1CA43CBA0008BA95 /* AmazonClientManager.swift in Sources */,
 				DA464EF31C624494007FF204 /* LocationTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,6 +473,7 @@
 			baseConfigurationReference = 851869870E1B53F81D67C06C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TimeToLeave/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.TimeToLeave;
@@ -444,6 +487,7 @@
 			baseConfigurationReference = FADC055493FB94DA54A248E7 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TimeToLeave/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.TimeToLeave;

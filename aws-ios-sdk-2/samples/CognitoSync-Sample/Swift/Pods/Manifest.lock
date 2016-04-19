@@ -1,0 +1,62 @@
+PODS:
+  - AWSCognito (2.2.7):
+    - AWSCore (= 2.2.7)
+  - AWSCore (2.2.7)
+  - Bolts (1.6.0):
+    - Bolts/AppLinks (= 1.6.0)
+    - Bolts/Tasks (= 1.6.0)
+  - Bolts/AppLinks (1.6.0):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.6.0)
+  - Digits (1.12.1):
+    - TwitterCore (= 1.12.1)
+  - Fabric (1.5.5):
+    - Fabric/Base (= 1.5.5)
+  - Fabric/Base (1.5.5)
+  - FBSDKCoreKit (4.5.1):
+    - Bolts (~> 1.1)
+    - FBSDKCoreKit/arc (= 4.5.1)
+    - FBSDKCoreKit/no-arc (= 4.5.1)
+  - FBSDKCoreKit/arc (4.5.1):
+    - Bolts (~> 1.1)
+  - FBSDKCoreKit/no-arc (4.5.1):
+    - Bolts (~> 1.1)
+    - FBSDKCoreKit/arc
+  - FBSDKLoginKit (4.5.1):
+    - FBSDKCoreKit
+  - FBSDKShareKit (4.5.1):
+    - FBSDKCoreKit
+  - google-plus-ios-sdk (1.7.1)
+  - TwitterCore (1.12.1):
+    - Fabric
+  - TwitterKit (1.12.1):
+    - TwitterCore (= 1.12.1)
+  - UICKeyChainStore (2.0.7)
+
+DEPENDENCIES:
+  - AWSCognito (~> 2.2.5)
+  - Digits (~> 1.12.0)
+  - Fabric (~> 1.5.0)
+  - FBSDKCoreKit (~> 4.5.1)
+  - FBSDKLoginKit (~> 4.5.1)
+  - FBSDKShareKit (~> 4.5.1)
+  - google-plus-ios-sdk (~> 1.7.1)
+  - TwitterCore (~> 1.12.0)
+  - TwitterKit (~> 1.12.0)
+  - UICKeyChainStore (~> 2.0.6)
+
+SPEC CHECKSUMS:
+  AWSCognito: f88aa1b969dafc6208d417ebfa18b0f3b3746093
+  AWSCore: d81e1e534040780deb0f3877aaa207d297e54b4c
+  Bolts: f52a250053bb517ca874523c3913776359ab3def
+  Digits: 197c120e044fef0634d3abcf4fc7325351911484
+  Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
+  FBSDKCoreKit: f335eaf6865e1e1597dee1debfb533045500da47
+  FBSDKLoginKit: 225cc9a388a92916ee3f3bb14422017b6e44b65b
+  FBSDKShareKit: 642034ac9f30793dfd897851b724bb4281750266
+  google-plus-ios-sdk: 47adbe03ea904bdb7aa1c0eca282a23c4686e1bc
+  TwitterCore: 2b1bdd58dfba3f21b416d2a0d1ca74173e3b0eea
+  TwitterKit: 7f55ebb8d2a1476f7ef2d6fedd40090d4b349b40
+  UICKeyChainStore: 696cd35083f7c8fb5e201d909b7e6aea6b478575
+
+COCOAPODS: 0.39.0

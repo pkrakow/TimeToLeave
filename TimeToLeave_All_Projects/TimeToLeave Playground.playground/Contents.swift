@@ -305,4 +305,8 @@ let bigDog = GettingClassy(input1: "cow", input2: "pig")
 bigDog.bark()
 
 
+var testArray = [1,2,3]
+for item in testArray {
+    print(item)
+}
 

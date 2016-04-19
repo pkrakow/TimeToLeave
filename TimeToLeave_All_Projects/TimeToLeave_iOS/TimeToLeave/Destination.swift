@@ -7,30 +7,37 @@
 //
 
 
-import CoreLocation
+//import CoreLocation
 import MapKit
 import Contacts
+import AWSCore
+import AWSDynamoDB
 
-class Destination: CLLocationManager, MKMapViewDelegate, NSCoding {
+//class Destination: CLLocationManager, MKMapViewDelegate, NSCoding {
+//class Destination: CLLocationManager, MKMapViewDelegate, NSCoding, AWSDynamoDBObjectModel, AWSDynamoDBModeling {
+class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate {
     
     // MARK: Properties
+    var uniqueDeviceIdentifier = UIDevice.currentDevice().identifierForVendor!.UUIDString
     var destinationMapItem: MKMapItem?
     var arrivalTime: NSDate
     var arrivalDays: [Bool]
     var weeklyTrip: Bool
-
+ 
     
+    // Initialize the Cognito Sync client and dataset
+    //let syncClient = AWSCognito.defaultCognito()
+
+ 
     // MARK: Archiving Paths
     static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
     static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("destinations")
-    
+ 
     
     // MARK: Types
     struct PropertyKey {
 
         static let destinationMapItemPlacemarkKey = "destinationMapItemPlacemark"
-        static let destinationMapItemNameKey = "destinationMapItemName"
-        static let destinationMapItemPhoneNumberKey = "destinationMapItemPhoneNumber"
         static let destinationMapItemUrlKey = "destinationMapItemUrl"
         static let arrivalTimeKey = "arrivalTime"
         static let arrivalDaysKey = "arrivalDays"
@@ -66,7 +73,7 @@ class Destination: CLLocationManager, MKMapViewDelegate, NSCoding {
         super.init()
     }
 
-    
+/*
     // MARK: CLLocationManagerDelegates
     func destinationViewControllerLocationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
@@ -85,31 +92,18 @@ class Destination: CLLocationManager, MKMapViewDelegate, NSCoding {
             print("Location Denied")
         }
     }
-    
+  */
     
 
-    
+ 
     // MARK: NSCoding
-    func encodeWithCoder(aCoder: NSCoder){
-
-        /*
-        let addressDictionary = [String(CNPostalAddressStreetKey): destinationMapItem?.name]
-        let placemark = MKPlacemark(coordinate: mapView.region.center, addressDictionary: addressDictionary)
-        let mapItem = MKMapItem(placemark: placemark)
-        thisDestination = Destination(destinationMapItem: mapItem, arrivalTime: arrivalTime)
-        */
-        print("Line to pause while checking out objects")
-        
-        
+    override func encodeWithCoder(aCoder: NSCoder){
+   
         aCoder.encodeObject(destinationMapItem?.placemark, forKey: PropertyKey.destinationMapItemPlacemarkKey)
-        //aCoder.encodeObject(destinationMapItem?.name, forKey: PropertyKey.destinationMapItemNameKey)
-        //aCoder.encodeObject(destinationMapItem?.phoneNumber, forKey: PropertyKey.destinationMapItemPhoneNumberKey)
-        //aCoder.encodeObject(destinationMapItem?.url, forKey: PropertyKey.destinationMapItemUrlKey)
-        
         aCoder.encodeObject(dateToString(arrivalTime), forKey: PropertyKey.arrivalTimeKey)
         aCoder.encodeObject(arrivalDays, forKey: PropertyKey.arrivalDaysKey)
         aCoder.encodeBool(weeklyTrip, forKey: PropertyKey.weeklyTripKey)
-        //aCoder.encodeObject(destinationMapItem, forKey: PropertyKey.destinationMapItemKey)
+
 
     }
     
@@ -127,8 +121,7 @@ class Destination: CLLocationManager, MKMapViewDelegate, NSCoding {
         
         let destinationPlacemark = aDecoder.decodeObjectForKey(PropertyKey.destinationMapItemPlacemarkKey) as! MKPlacemark
         let destinationMapItem = MKMapItem(placemark: destinationPlacemark)
-        
-        //let destinationMapItem = aDecoder.decodeObjectForKey(PropertyKey.destinationMapItemKey) as! MKMapItem
+
 
         // Must call designated initilizer.
         self.init(destinationMapItem: destinationMapItem, arrivalTime: arrivalTime!, arrivalDays: arrivalDays, weeklyTrip: weeklyTrip)
@@ -145,6 +138,44 @@ class Destination: CLLocationManager, MKMapViewDelegate, NSCoding {
         return dateFormatter.stringFromDate(date)
     }
     
+ 
+    
+    // MARK: AWSDynamoDB
+    
+    
+    func dynamoDBTableName() -> String! {
+        return TimeToLeaveDynamoDBTableName
+    }
+    
+    
+    // if we define attribute it must be included when calling it in function testing...
+    func hashKeyAttribute() -> String! {
+        return "uniqueDeviceIdentifier"
+    }
+    
+    class func rangeKeyAttribute() -> String! {
+        return nil
+    }
+    
+    
+    func ignoreAttributes() -> Array<AnyObject>! {
+        //return nil
+        return ["destinationMapItem", "arrivalTime", "arrivalDays", "weeklyTrip", "syncClient",
+        "DocumentsDirectory","ArchiveURL","PropertyKey"]
+    }
+    
+    //MARK: NSObjectProtocol hack
+    //Fixes Does not conform to the NSObjectProtocol error
+    
+    override func isEqual(object: AnyObject?) -> Bool {
+        return super.isEqual(object)
+    }
+    
+    override func `self`() -> Self {
+        return self
+    }
 
     
 }
+
+

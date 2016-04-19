@@ -100,6 +100,11 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/AWSSNS.framework"
   install_framework "Pods/AWSSQS.framework"
   install_framework "Pods/AWSSimpleDB.framework"
+  install_framework "Pods/Bolts.framework"
+  install_framework "Pods/FBSDKCoreKit.framework"
+  install_framework "Pods/FBSDKLoginKit.framework"
+  install_framework "Pods/FBSDKShareKit.framework"
+  install_framework "Pods/UICKeyChainStore.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/AWSAutoScaling.framework"
@@ -118,4 +123,9 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/AWSSNS.framework"
   install_framework "Pods/AWSSQS.framework"
   install_framework "Pods/AWSSimpleDB.framework"
+  install_framework "Pods/Bolts.framework"
+  install_framework "Pods/FBSDKCoreKit.framework"
+  install_framework "Pods/FBSDKLoginKit.framework"
+  install_framework "Pods/FBSDKShareKit.framework"
+  install_framework "Pods/UICKeyChainStore.framework"
 fi

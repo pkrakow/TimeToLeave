@@ -84,7 +84,32 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Bolts.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FBSDKCoreKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FBSDKLoginKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FBSDKShareKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>UICKeyChainStore.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -92,7 +117,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0654FE1E2AD07CB15FE42D17357FB50A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>0849E21B9B9ACDBAAC96A31A5953712F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1039C5E409D53FFF4B602789515497EA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -102,12 +137,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>12D38A8ABD2468AB36847EB5B7C6900C</key>
+		<key>127BF3FFB02D04BBDF420DF267FCDE23</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>21C22ACBAC5E84A6FFA74A6401312F6B</key>
+		<key>12D38A8ABD2468AB36847EB5B7C6900C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,7 +152,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>2C180328607B9AF555416B6580E59FC2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>3B41A9B1D49827D58E203AF61D34F608</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>63A18C6A528BD7E47DDAF39B2AEAF1D1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -133,6 +178,11 @@
 			<true/>
 		</dict>
 		<key>7BB24175093D7F20531C6FD7CB7D1C9C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>94A50FB884552F1E25589DD6EA641782</key>
 		<dict>
 			<key>primary</key>
 			<true/>

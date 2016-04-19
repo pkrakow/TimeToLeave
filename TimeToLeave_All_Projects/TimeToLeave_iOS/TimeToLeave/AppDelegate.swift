@@ -15,21 +15,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        return AmazonClientManager.sharedInstance.application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
         
-        // Initialize the Amazon Cognito credentials provider
+        if AWSCognito.cognitoDeviceId() != nil {
+            let canRegisterApp : UIApplication? = application
+            canRegisterApp?.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert, categories: nil))
+        }
         
-        let credentialsProvider = AWSCognitoCredentialsProvider(regionType:.USEast1,
-            identityPoolId:"us-east-1:7bb22b6c-100b-4fdf-94c8-5f349ae63096")
+        // Fabric.with([Twitter.self(), Digits.self()])
         
-        let configuration = AWSServiceConfiguration(region:.USEast1, credentialsProvider:credentialsProvider)
+        // AWSDynamoDB configuration code [MAKE SURE TO SET VALUES TO MATCH YOUR AWS CONFIGURATION]
+        let credentialProvider = AWSCognitoCredentialsProvider(regionType: CognitoRegionType, identityPoolId: CognitoIdentityPoolId)
+        
+        let configuration = AWSServiceConfiguration(
+            region: ADefaultServiceRegionType,
+            credentialsProvider: credentialProvider)
+        
         
         AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = configuration
-        
 
-        return true
+        return AmazonClientManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 
     func applicationWillResignActive(application: UIApplication) {
