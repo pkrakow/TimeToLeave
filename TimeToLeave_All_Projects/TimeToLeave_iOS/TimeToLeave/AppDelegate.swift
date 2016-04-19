@@ -30,10 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Fabric.with([Twitter.self(), Digits.self()])
         
         // AWSDynamoDB configuration code [MAKE SURE TO SET VALUES TO MATCH YOUR AWS CONFIGURATION]
-        let credentialProvider = AWSCognitoCredentialsProvider(regionType: CognitoRegionType, identityPoolId: CognitoIdentityPoolId)
+        let credentialProvider = AWSCognitoCredentialsProvider(regionType: Constants.CognitoRegionType, identityPoolId: Constants.CognitoIdentityPoolId)
         
         let configuration = AWSServiceConfiguration(
-            region: ADefaultServiceRegionType,
+            region: Constants.DefaultServiceRegionType,
             credentialsProvider: credentialProvider)
         
         

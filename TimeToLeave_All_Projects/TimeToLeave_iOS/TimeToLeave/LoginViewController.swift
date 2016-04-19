@@ -36,8 +36,13 @@ class LoginViewController: UIViewController {
         
         // if AmazonClientManager.sharedInstance.isLoggedIn() {
         if AmazonClientManager.sharedInstance.isLoggedInWithFacebook() {
+            
+            // Reload FB session to refresh token 
+            AmazonClientManager.sharedInstance.reloadFBSession()
+            
             // If the user is already logged in, segue to the DestinationTableViewController
             performSegueWithIdentifier("IsLoggedIn", sender: self)
+            
         }
         
         

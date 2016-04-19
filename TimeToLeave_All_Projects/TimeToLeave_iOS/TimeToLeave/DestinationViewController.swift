@@ -25,7 +25,7 @@ class DestinationViewController: UIViewController, MKMapViewDelegate {
 
     
     // Variables for creating a destination
-    var arrivalTime = NSDate()
+    var arrivalTime: NSDate?
     var inputLocation: MKMapItem?
     var thisDestination: Destination?
 
@@ -39,18 +39,20 @@ class DestinationViewController: UIViewController, MKMapViewDelegate {
         mapView.showsUserLocation = true
         mapView.mapType = MKMapType(rawValue: 0)!
         
-        // Set the minimum date to now
-        datePicker.minimumDate = arrivalTime
         
         // Check if a segue did not populate thisDestination
         if (thisDestination == nil) {
+            
+            // Set the minimum date to now
+            arrivalTime = NSDate()
+            datePicker.minimumDate = arrivalTime
             
             // Check if you have an inputLocation from the LocationTableViewController
             if (inputLocation != nil) {
                 
                 // Initialize the destination from the LocationTableViewController
-                thisDestination = Destination(destinationMapItem: inputLocation!, arrivalTime: arrivalTime)
-                thisDestination?.arrivalDays[ getDay(arrivalTime) - 1] = true
+                thisDestination = Destination(destinationMapItem: inputLocation!, arrivalTime: arrivalTime!)
+                thisDestination?.arrivalDays[ getDay(arrivalTime!) - 1] = true
             } else {
                 
                 // Set thisDestination to the user's current location
@@ -58,7 +60,7 @@ class DestinationViewController: UIViewController, MKMapViewDelegate {
                 let addressDictionary = [String(CNPostalAddressStreetKey): "Current Location"]
                 let placemark = MKPlacemark(coordinate: mapView.region.center, addressDictionary: addressDictionary)
                 let mapItem = MKMapItem(placemark: placemark)
-                thisDestination = Destination(destinationMapItem: mapItem, arrivalTime: arrivalTime)
+                thisDestination = Destination(destinationMapItem: mapItem, arrivalTime: arrivalTime!)
 
             }
         }
@@ -73,6 +75,9 @@ class DestinationViewController: UIViewController, MKMapViewDelegate {
         
         // Center the mapView on thisDestination
         setupMap((thisDestination?.destinationMapItem)!)
+        
+        // Set the arrivalTime
+        datePicker.date = (thisDestination?.arrivalTime)!
         
         // Set the onceOrWeekly control
         if(thisDestination!.weeklyTrip){
@@ -103,7 +108,8 @@ class DestinationViewController: UIViewController, MKMapViewDelegate {
         arrivalTime = datePicker.date
         
         // Update the destination.arrivalTime with the new arrivalTime
-        thisDestination?.arrivalTime = arrivalTime
+        thisDestination?.arrivalTime = arrivalTime!
+        
         
     }
     

@@ -144,7 +144,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate {
     
     
     func dynamoDBTableName() -> String! {
-        return TimeToLeaveDynamoDBTableName
+        return Constants.TimeToLeaveDynamoDBTableName
     }
     
     
@@ -160,8 +160,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate {
     
     func ignoreAttributes() -> Array<AnyObject>! {
         //return nil
-        return ["destinationMapItem", "arrivalTime", "arrivalDays", "weeklyTrip", "syncClient",
-        "DocumentsDirectory","ArchiveURL","PropertyKey"]
+        return ["destinationMapItem", "arrivalTime", "arrivalDays", "weeklyTrip", "syncClient", "DocumentsDirectory","ArchiveURL","PropertyKey"]
     }
     
     //MARK: NSObjectProtocol hack

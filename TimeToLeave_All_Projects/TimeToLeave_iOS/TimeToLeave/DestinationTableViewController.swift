@@ -173,6 +173,7 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
                 let selectedDestination = destinations[indexPath.row]
                 // Set the detail view to show the contents of that cell
                 destinationDetailViewController.thisDestination = selectedDestination
+
             }
         }
 
@@ -211,26 +212,22 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
             print("Failed to save destinations...")
         }
         
-        // Save each destination to AWS
+        // Save each destination to AWS DynamoDB
         for destination in destinations {
             
             print("Preparing to save: ", destination.destinationMapItem!.name)
             print("dynamoDBObjectMapper.description: ", dynamoDBObjectMapper.description)
-            dynamoDBObjectMapper.save(destination)
-
-           
-            //dynamoDBObjectMapper.load(<#T##resultClass: AnyClass!##AnyClass!#>, hashKey: <#T##AnyObject!#>, rangeKey: <#T##AnyObject!#>)
-            //dynamoDBObjectMapper.save(<#T##model: AWSDynamoDBModel!##AWSDynamoDBModel!#>)
             
-            /*
-            aCoder.encodeObject(destinationMapItem?.placemark, forKey: PropertyKey.destinationMapItemPlacemarkKey)
-           
-            aCoder.encodeObject(dateToString(arrivalTime), forKey: PropertyKey.arrivalTimeKey)
-            aCoder.encodeObject(arrivalDays, forKey: PropertyKey.arrivalDaysKey)
-            aCoder.encodeBool(weeklyTrip, forKey: PropertyKey.weeklyTripKey)
-            */
+            //let testThingy1 = testThingy()
+            //dynamoDBObjectMapper.save(testThingy1)
             
-
+            let testObject = DDBTableRow()
+            testObject.UserId = "Krakow test id 1"
+            testObject.GameTitle = "Krakow Game"
+            testObject.Wins = 2
+            testObject.Losses = 1
+            testObject.TopScore = 36
+            dynamoDBObjectMapper.save(testObject)
             
         }
         
@@ -242,4 +239,87 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
         return NSKeyedUnarchiver.unarchiveObjectWithFile(Destination.ArchiveURL.path!) as? [Destination]
     }
 
+}
+
+
+// MARK: Test Classes for debugging DynamoDB - Delete later
+
+class testThingy: AWSDynamoDBObjectModel {
+    
+    // MARK: Properties
+    var uniqueDeviceIdentifier:String? = UIDevice.currentDevice().identifierForVendor!.UUIDString
+    
+    
+    func dynamoDBTableName() -> String! {
+        return Constants.TimeToLeaveDynamoDBTableName
+    }
+    
+    
+    // if we define attribute it must be included when calling it in function testing...
+    func hashKeyAttribute() -> String! {
+        return "uniqueDeviceIdentifier"
+    }
+    
+    class func rangeKeyAttribute() -> String! {
+        return nil
+    }
+    
+    
+    func ignoreAttributes() -> Array<AnyObject>! {
+        return nil
+        //return ["destinationMapItem", "arrivalTime", "arrivalDays", "weeklyTrip", "syncClient", "DocumentsDirectory","ArchiveURL","PropertyKey"]
+    }
+    
+    //MARK: NSObjectProtocol hack
+    //Fixes Does not conform to the NSObjectProtocol error
+    
+    override func isEqual(object: AnyObject?) -> Bool {
+        return super.isEqual(object)
+    }
+    
+    override func `self`() -> Self {
+        return self
+    }
+
+    
+}
+
+class DDBTableRow :AWSDynamoDBObjectModel ,AWSDynamoDBModeling  {
+    
+    var UserId:String?
+    var GameTitle:String?
+    
+    //set the default values of scores, wins and losses to 0
+    var TopScore:NSNumber? = 0
+    var Wins:NSNumber? = 0
+    var Losses:NSNumber? = 0
+    
+    //should be ignored according to ignoreAttributes
+    var internalName:String?
+    var internalState:NSNumber?
+    
+    class func dynamoDBTableName() -> String! {
+        return Constants.TimeToLeaveDynamoDBTableName
+    }
+    
+    class func hashKeyAttribute() -> String! {
+        return "UserId"
+    }
+    
+    class func rangeKeyAttribute() -> String! {
+        return "GameTitle"
+    }
+    
+    class func ignoreAttributes() -> Array<AnyObject>! {
+        return ["internalName","internalState"]
+    }
+    
+    //MARK: NSObjectProtocol hack
+    override func isEqual(object: AnyObject?) -> Bool {
+        return super.isEqual(object)
+    }
+    
+    override func `self`() -> Self {
+        return self
+    }
 }

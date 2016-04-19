@@ -20,7 +20,6 @@
 		DA7527CA1C4D692200679032 /* Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DA7527C91C4D692200679032 /* Notes.rtf */; };
 		DA7527CC1C4D928700679032 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7527CB1C4D928700679032 /* Destination.swift */; };
 		DA7527CD1C4D928700679032 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7527CB1C4D928700679032 /* Destination.swift */; };
-		DA9211971CC5D71B00B0FB38 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9211961CC5D71B00B0FB38 /* Constants.swift */; };
 		DA9B9EB61C4C0D1100B107D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9B9EB51C4C0D1100B107D5 /* AppDelegate.swift */; };
 		DA9B9EB81C4C0D1100B107D5 /* DestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9B9EB71C4C0D1100B107D5 /* DestinationViewController.swift */; };
 		DA9B9EBD1C4C0D1100B107D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA9B9EBC1C4C0D1100B107D5 /* Assets.xcassets */; };
@@ -58,7 +57,6 @@
 		DA7527C91C4D692200679032 /* Notes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
 		DA7527CB1C4D928700679032 /* Destination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
 		DA85BE091CA19991009B7732 /* TimeToLeave-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TimeToLeave-Bridging-Header.h"; sourceTree = "<group>"; };
-		DA9211961CC5D71B00B0FB38 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = ../../../../gitOut/TimeToLeave_All_Projects/TimeToLeave_iOS/TimeToLeave/Constants.swift; sourceTree = "<group>"; };
 		DA9B9EB21C4C0D1100B107D5 /* TimeToLeave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeToLeave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA9B9EB51C4C0D1100B107D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA9B9EB71C4C0D1100B107D5 /* DestinationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationViewController.swift; sourceTree = "<group>"; };
@@ -159,7 +157,6 @@
 				DA4CC7C21C59137E00F5A079 /* LocationTableViewCell.swift */,
 				DA9B9EB71C4C0D1100B107D5 /* DestinationViewController.swift */,
 				DA7527CB1C4D928700679032 /* Destination.swift */,
-				DA9211961CC5D71B00B0FB38 /* Constants.swift */,
 				DA7527C91C4D692200679032 /* Notes.rtf */,
 				DA9B9EBC1C4C0D1100B107D5 /* Assets.xcassets */,
 				DA4BA4E61CA5829700EEBEB7 /* DeveloperAuthenticated */,
@@ -349,7 +346,6 @@
 				DAF5B80C1CA43CFE0008BA95 /* Constants.swift in Sources */,
 				DA7527CC1C4D928700679032 /* Destination.swift in Sources */,
 				DA4CC7C11C58920B00F5A079 /* DestinationTableViewController.swift in Sources */,
-				DA9211971CC5D71B00B0FB38 /* Constants.swift in Sources */,
 				DAF5B80A1CA43CBA0008BA95 /* AmazonClientManager.swift in Sources */,
 				DA464EF31C624494007FF204 /* LocationTableViewController.swift in Sources */,
 			);
