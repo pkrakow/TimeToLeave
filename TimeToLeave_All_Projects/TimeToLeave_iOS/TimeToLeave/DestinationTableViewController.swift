@@ -218,9 +218,13 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
             print("Preparing to save: ", destination.destinationMapItem!.name)
             print("dynamoDBObjectMapper.description: ", dynamoDBObjectMapper.description)
             
-            //let testThingy1 = testThingy()
-            //dynamoDBObjectMapper.save(testThingy1)
-            
+
+            let testThingy1 = testThingy()
+            testThingy1.uniqueDestinationIdentifier = NSUUID().UUIDString
+            testThingy1.uniqueDeviceIdentifier = UIDevice.currentDevice().identifierForVendor!.UUIDString
+            dynamoDBObjectMapper.save(testThingy1)
+
+            /*
             let testObject = DDBTableRow()
             testObject.UserId = "Krakow test id 1"
             testObject.GameTitle = "Krakow Game"
@@ -228,7 +232,7 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
             testObject.Losses = 1
             testObject.TopScore = 36
             dynamoDBObjectMapper.save(testObject)
-            
+            */
         }
         
 
@@ -244,35 +248,35 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
 
 // MARK: Test Classes for debugging DynamoDB - Delete later
 
-class testThingy: AWSDynamoDBObjectModel {
+class testThingy :AWSDynamoDBObjectModel ,AWSDynamoDBModeling {
     
     // MARK: Properties
-    var uniqueDeviceIdentifier:String? = UIDevice.currentDevice().identifierForVendor!.UUIDString
+    var uniqueDestinationIdentifier:String?
+    var uniqueDeviceIdentifier:String?
+
     
     
-    func dynamoDBTableName() -> String! {
+    class func dynamoDBTableName() -> String! {
         return Constants.TimeToLeaveDynamoDBTableName
     }
     
     
     // if we define attribute it must be included when calling it in function testing...
-    func hashKeyAttribute() -> String! {
-        return "uniqueDeviceIdentifier"
+    class func hashKeyAttribute() -> String! {
+        return "uniqueDestinationIdentifier"
     }
     
     class func rangeKeyAttribute() -> String! {
-        return nil
+        return "uniqueDeviceIdentifier"
     }
     
     
-    func ignoreAttributes() -> Array<AnyObject>! {
+    class func ignoreAttributes() -> Array<AnyObject>! {
         return nil
-        //return ["destinationMapItem", "arrivalTime", "arrivalDays", "weeklyTrip", "syncClient", "DocumentsDirectory","ArchiveURL","PropertyKey"]
+
     }
     
     //MARK: NSObjectProtocol hack
-    //Fixes Does not conform to the NSObjectProtocol error
-    
     override func isEqual(object: AnyObject?) -> Bool {
         return super.isEqual(object)
     }
@@ -283,6 +287,9 @@ class testThingy: AWSDynamoDBObjectModel {
 
     
 }
+
+
+
 
 class DDBTableRow :AWSDynamoDBObjectModel ,AWSDynamoDBModeling  {
     

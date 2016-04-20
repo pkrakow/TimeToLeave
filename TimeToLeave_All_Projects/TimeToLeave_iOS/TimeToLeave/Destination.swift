@@ -15,7 +15,7 @@ import AWSDynamoDB
 
 //class Destination: CLLocationManager, MKMapViewDelegate, NSCoding {
 //class Destination: CLLocationManager, MKMapViewDelegate, NSCoding, AWSDynamoDBObjectModel, AWSDynamoDBModeling {
-class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate {
+class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModeling {
     
     // MARK: Properties
     var uniqueDeviceIdentifier = UIDevice.currentDevice().identifierForVendor!.UUIDString
@@ -143,13 +143,13 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate {
     // MARK: AWSDynamoDB
     
     
-    func dynamoDBTableName() -> String! {
+    class func dynamoDBTableName() -> String! {
         return Constants.TimeToLeaveDynamoDBTableName
     }
     
     
     // if we define attribute it must be included when calling it in function testing...
-    func hashKeyAttribute() -> String! {
+    class func hashKeyAttribute() -> String! {
         return "uniqueDeviceIdentifier"
     }
     
@@ -158,7 +158,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate {
     }
     
     
-    func ignoreAttributes() -> Array<AnyObject>! {
+    class func ignoreAttributes() -> Array<AnyObject>! {
         //return nil
         return ["destinationMapItem", "arrivalTime", "arrivalDays", "weeklyTrip", "syncClient", "DocumentsDirectory","ArchiveURL","PropertyKey"]
     }
