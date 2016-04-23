@@ -19,7 +19,8 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
     
     // MARK: Properties
     var destinations = [Destination]()
-    
+
+
     // Initialize the Cognito Sync client and dataset
     let syncClient = AWSCognito.defaultCognito()    
     
@@ -45,6 +46,7 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
             // Put something here for cold start
             print("No saved destinations")
         }
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -217,22 +219,11 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
             
             print("Preparing to save: ", destination.destinationMapItem!.name)
             print("dynamoDBObjectMapper.description: ", dynamoDBObjectMapper.description)
+            dynamoDBObjectMapper.save(destination)
             
-
             let testThingy1 = testThingy()
-            testThingy1.uniqueDestinationIdentifier = NSUUID().UUIDString
-            testThingy1.uniqueDeviceIdentifier = UIDevice.currentDevice().identifierForVendor!.UUIDString
-            dynamoDBObjectMapper.save(testThingy1)
-
-            /*
-            let testObject = DDBTableRow()
-            testObject.UserId = "Krakow test id 1"
-            testObject.GameTitle = "Krakow Game"
-            testObject.Wins = 2
-            testObject.Losses = 1
-            testObject.TopScore = 36
-            dynamoDBObjectMapper.save(testObject)
-            */
+            //dynamoDBObjectMapper.save(testThingy1)
+            
         }
         
 
@@ -251,8 +242,8 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
 class testThingy :AWSDynamoDBObjectModel ,AWSDynamoDBModeling {
     
     // MARK: Properties
-    var uniqueDestinationIdentifier:String?
-    var uniqueDeviceIdentifier:String?
+    var uniqueDestinationIdentifier:String? = NSUUID().UUIDString
+    var uniqueDeviceIdentifier:String? = UIDevice.currentDevice().identifierForVendor!.UUIDString
 
     
     
@@ -289,44 +280,3 @@ class testThingy :AWSDynamoDBObjectModel ,AWSDynamoDBModeling {
 }
 
 
-
-
-class DDBTableRow :AWSDynamoDBObjectModel ,AWSDynamoDBModeling  {
-    
-    var UserId:String?
-    var GameTitle:String?
-    
-    //set the default values of scores, wins and losses to 0
-    var TopScore:NSNumber? = 0
-    var Wins:NSNumber? = 0
-    var Losses:NSNumber? = 0
-    
-    //should be ignored according to ignoreAttributes
-    var internalName:String?
-    var internalState:NSNumber?
-    
-    class func dynamoDBTableName() -> String! {
-        return Constants.TimeToLeaveDynamoDBTableName
-    }
-    
-    class func hashKeyAttribute() -> String! {
-        return "UserId"
-    }
-    
-    class func rangeKeyAttribute() -> String! {
-        return "GameTitle"
-    }
-    
-    class func ignoreAttributes() -> Array<AnyObject>! {
-        return ["internalName","internalState"]
-    }
-    
-    //MARK: NSObjectProtocol hack
-    override func isEqual(object: AnyObject?) -> Bool {
-        return super.isEqual(object)
-    }
-    
-    override func `self`() -> Self {
-        return self
-    }
-}

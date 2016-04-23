@@ -13,20 +13,20 @@ import Contacts
 import AWSCore
 import AWSDynamoDB
 
-//class Destination: CLLocationManager, MKMapViewDelegate, NSCoding {
-//class Destination: CLLocationManager, MKMapViewDelegate, NSCoding, AWSDynamoDBObjectModel, AWSDynamoDBModeling {
+
+//class Destination: CLLocationManager, MKMapViewDelegate, AWSDynamoDBObjectModel, AWSDynamoDBModeling {
 class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModeling {
     
     // MARK: Properties
-    var uniqueDeviceIdentifier = UIDevice.currentDevice().identifierForVendor!.UUIDString
+    var uniqueDestinationID:String?
+    var uniqueUserID:String?
+    var uniqueDeviceID:String?
+    
     var destinationMapItem: MKMapItem?
     var arrivalTime: NSDate
     var arrivalDays: [Bool]
     var weeklyTrip: Bool
  
-    
-    // Initialize the Cognito Sync client and dataset
-    //let syncClient = AWSCognito.defaultCognito()
 
  
     // MARK: Archiving Paths
@@ -37,6 +37,10 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
     // MARK: Types
     struct PropertyKey {
 
+        static let uniqueDestinationIDKey = "uniqueDestinationID"
+        static let uniqueUserIDKey = "uniqueUserID"
+        static let uniqueDeviceIDKey = "uniqueDeviceID"
+        
         static let destinationMapItemPlacemarkKey = "destinationMapItemPlacemark"
         static let destinationMapItemUrlKey = "destinationMapItemUrl"
         static let arrivalTimeKey = "arrivalTime"
@@ -51,6 +55,10 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
     init?(destinationMapItem: MKMapItem, arrivalTime: NSDate) {
         
         // Initialize properties
+        self.uniqueDestinationID = NSUUID().UUIDString
+        self.uniqueUserID = AmazonClientManager.sharedInstance.credentialsProvider?.logins["graph.facebook.com"] as? String
+        self.uniqueDeviceID = UIDevice.currentDevice().identifierForVendor!.UUIDString
+        
         self.destinationMapItem = destinationMapItem
         self.arrivalTime = arrivalTime
         self.arrivalDays = [false, false, false, false, false, false, false]
@@ -60,11 +68,16 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         
     }
     
+    
     // Initializer for loading a stored destination
-    init?(destinationMapItem: MKMapItem, arrivalTime: NSDate, arrivalDays: [Bool], weeklyTrip: Bool) {
-        
+    init?(uniqueDestinationID: String, uniqueUserID: String, uniqueDeviceID: String,  destinationMapItem: MKMapItem, arrivalTime: NSDate, arrivalDays: [Bool], weeklyTrip: Bool){
+    //init?(uniqueDestinationID: String, uniqueUserID: String, destinationMapItem: MKMapItem, arrivalTime: NSDate, arrivalDays: [Bool], weeklyTrip: Bool){
         
         // Initialize properties
+        self.uniqueDestinationID = uniqueDestinationID
+        self.uniqueUserID = uniqueUserID
+        self.uniqueDeviceID = uniqueDeviceID
+        
         self.destinationMapItem = destinationMapItem
         self.arrivalTime = arrivalTime
         self.arrivalDays = arrivalDays
@@ -98,6 +111,10 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
  
     // MARK: NSCoding
     override func encodeWithCoder(aCoder: NSCoder){
+        
+        aCoder.encodeObject(uniqueDestinationID, forKey: PropertyKey.uniqueDestinationIDKey)
+        aCoder.encodeObject(uniqueUserID, forKey: PropertyKey.uniqueUserIDKey)
+        aCoder.encodeObject(uniqueDeviceID, forKey: PropertyKey.uniqueDeviceIDKey)
    
         aCoder.encodeObject(destinationMapItem?.placemark, forKey: PropertyKey.destinationMapItemPlacemarkKey)
         aCoder.encodeObject(dateToString(arrivalTime), forKey: PropertyKey.arrivalTimeKey)
@@ -108,8 +125,11 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-
-
+        
+        let uniqueDestinationID = aDecoder.decodeObjectForKey(PropertyKey.uniqueDestinationIDKey) as! String
+        let uniqueUserID = aDecoder.decodeObjectForKey(PropertyKey.uniqueUserIDKey) as! String
+        let uniqueDeviceID = aDecoder.decodeObjectForKey(PropertyKey.uniqueDeviceIDKey) as! String
+ 
         let arrivalDays = aDecoder.decodeObjectForKey(PropertyKey.arrivalDaysKey) as! [Bool]
         let weeklyTrip = aDecoder.decodeBoolForKey(PropertyKey.weeklyTripKey)
         
@@ -122,9 +142,13 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         let destinationPlacemark = aDecoder.decodeObjectForKey(PropertyKey.destinationMapItemPlacemarkKey) as! MKPlacemark
         let destinationMapItem = MKMapItem(placemark: destinationPlacemark)
 
+ 
 
+            
         // Must call designated initilizer.
-        self.init(destinationMapItem: destinationMapItem, arrivalTime: arrivalTime!, arrivalDays: arrivalDays, weeklyTrip: weeklyTrip)
+        self.init(uniqueDestinationID: uniqueDestinationID, uniqueUserID: uniqueUserID, uniqueDeviceID: uniqueDeviceID, destinationMapItem: destinationMapItem, arrivalTime: arrivalTime!, arrivalDays: arrivalDays, weeklyTrip: weeklyTrip)
+        //self.init(uniqueDestinationID: uniqueDestinationID, uniqueUserID: uniqueUserID, destinationMapItem: destinationMapItem, arrivalTime: arrivalTime!, arrivalDays: arrivalDays, weeklyTrip: weeklyTrip)
+
     
     }
     
@@ -150,11 +174,11 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
     
     // if we define attribute it must be included when calling it in function testing...
     class func hashKeyAttribute() -> String! {
-        return "uniqueDeviceIdentifier"
+        return "uniqueDestinationID"
     }
     
     class func rangeKeyAttribute() -> String! {
-        return nil
+        return "uniqueUserID"
     }
     
     

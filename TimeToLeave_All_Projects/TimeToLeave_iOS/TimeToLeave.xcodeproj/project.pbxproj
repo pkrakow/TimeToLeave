@@ -146,11 +146,11 @@
 			isa = PBXGroup;
 			children = (
 				DA9B9EB51C4C0D1100B107D5 /* AppDelegate.swift */,
+				DAF5B80B1CA43CFE0008BA95 /* Constants.swift */,
 				DA85BE091CA19991009B7732 /* TimeToLeave-Bridging-Header.h */,
+				DAF5B8091CA43CBA0008BA95 /* AmazonClientManager.swift */,
 				DAD079F41C7CA90B00D20065 /* Main.storyboard */,
 				DA3AEEE91CA2D7FF00405848 /* LoginViewController.swift */,
-				DAF5B8091CA43CBA0008BA95 /* AmazonClientManager.swift */,
-				DAF5B80B1CA43CFE0008BA95 /* Constants.swift */,
 				DA4CC7C01C58920B00F5A079 /* DestinationTableViewController.swift */,
 				DA1AD71F1C585F3100458E2F /* DestinationTableViewCell.swift */,
 				DA464EF21C624494007FF204 /* LocationTableViewController.swift */,

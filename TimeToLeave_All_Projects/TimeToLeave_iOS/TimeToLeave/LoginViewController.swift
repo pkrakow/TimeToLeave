@@ -70,18 +70,10 @@ class LoginViewController: UIViewController {
             return nil
         }
         
-        // Test Code
-        
-        //print("Login status: ", AmazonClientManager.sharedInstance.isLoggedInWithFacebook())
-        // if AmazonClientManager.sharedInstance.isLoggedIn() {
-        /*
-        if AmazonClientManager.sharedInstance.isLoggedInWithFacebook() {
-            
-            // If the login was successful, segue to the DestinationTableViewController
-            performSegueWithIdentifier("IsLoggedIn", sender: self)
-        }
-    */
+
     }
+    
+
 
     /*
     // MARK: - Navigation
