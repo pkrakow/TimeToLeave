@@ -1,5 +1,6 @@
-//: Playground - noun: a place where people can play
-
+/***********************
+ Base64 Encoding Example
+************************/
 import UIKit
 
 let plainString = "my plain data"
@@ -67,3 +68,6 @@ print(data)
 if let data = NSUserDefaults.standardUserDefaults().objectForKey("books") as? NSData {
     let books = NSKeyedUnarchiver.unarchiveObjectWithData(data)
 }
+
+
+

@@ -28,3 +28,5 @@ pod 'TwitterKit'
 pod 'Fabric'
 pod 'TwitterCore'
 pod 'Digits'
+
+pod ‘Gloss’

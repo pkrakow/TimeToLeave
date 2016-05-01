@@ -66,9 +66,9 @@ class DestinationViewController: UIViewController, MKMapViewDelegate {
         }
         
         // Set the destinationName
-        var name = thisDestination?.destinationMapItem?.name
-        if let city = thisDestination?.destinationMapItem!.placemark.locality,
-            let state = thisDestination?.destinationMapItem!.placemark.administrativeArea {
+        var name = thisDestination?.destinationMapItem.name
+        if let city = thisDestination?.destinationMapItem.placemark.locality,
+            let state = thisDestination?.destinationMapItem.placemark.administrativeArea {
                 name?.appendContentsOf(": \(city) \(state)")
         }
         destinationName.text = name

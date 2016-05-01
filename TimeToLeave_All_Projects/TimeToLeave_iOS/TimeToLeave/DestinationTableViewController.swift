@@ -84,9 +84,9 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
         // Configure the cell here (add code after the cell design is refined)
 
         // Name the cell
-        var cellLabel = destination.destinationMapItem!.name
-        if let city = destination.destinationMapItem!.placemark.locality,
-            let state = destination.destinationMapItem!.placemark.administrativeArea {
+        var cellLabel = destination.destinationMapItem.name
+        if let city = destination.destinationMapItem.placemark.locality,
+            let state = destination.destinationMapItem.placemark.administrativeArea {
                 cellLabel?.appendContentsOf(": \(city), \(state)")
         }
         cell.nameLabel.text = cellLabel
@@ -217,11 +217,10 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
         // Save each destination to AWS DynamoDB
         for destination in destinations {
             
-            print("Preparing to save: ", destination.destinationMapItem!.name)
-            print("dynamoDBObjectMapper.description: ", dynamoDBObjectMapper.description)
+            print("Preparing to save: ", destination.jsonDestination)
+            //print("dynamoDBObjectMapper.description: ", dynamoDBObjectMapper.description)
             dynamoDBObjectMapper.save(destination)
-            
-            let testThingy1 = testThingy()
+            //let testThingy1 = testThingy()
             //dynamoDBObjectMapper.save(testThingy1)
             
         }

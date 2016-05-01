@@ -7,11 +7,10 @@
 \deftab529
 \pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 
-\f0\b\fs22 \cf0 Notes to self 4.23.2016:
+\f0\b\fs22 \cf0 Notes to self 4.30.2016:
 \f1\b0 \cf2 \CocoaLigature0 \
 \
-I can upload Destinations to DynamoDB.  I need to figure out how to get the entire object into DynamoDB and setup some syncing logic between the local copy and the cloud copy.\
-	\
+Playing around with a function to call Google Maps directly from the app when a destination is created	\
 \
 ---------------------------------------------------------------------------------------\
 Remember to commit frequently:\
@@ -39,7 +38,7 @@ App Navigation\
 \
 LoginViewController:\
 \
-1) Make sure the login works on first login\
+1) [Done] Make sure the login works on first login\
 2) Configure the non-FB login types (or get rid of them)\
 3) Make the login page pretty\
 \
@@ -66,11 +65,8 @@ DestinationTableViewController:\
 \
 \
 1) [Done] Save a generic key/value pair to AWS Cognito [Note: use AWS DynamoDB instead to make it easier to store iOS Objects directly]\
-2) Save Destinations to AWS Dynamo DB \
-	DynamoDB Swift Query Example: http://jzorz.com/aws-dynamodb-swift-query/]\
-	DynamoDB Swift Demo: https://github.com/awslabs/aws-sdk-ios-samples/tree/master/DynamoDBObjectMapper-Sample/Swift\
-	DynamoDBMapper Class: http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBMapper.Methods.html\
-	DynamoDB Console: https://console.aws.amazon.com/dynamodb/home?region=us-east-1#\
+2) [Done] Save Destinations to AWS Dynamo DB \
+	\
 \
 3) Load Destinations from AWS Dynamo DB\
 4) Modify NSArchiver code so it serves as a backup to DynamoDB (or just comment it out)\
@@ -156,7 +152,6 @@ LocationManager:\
 \cf4 class\cf0  DestinationViewController: \cf3 UIViewController\cf0 , \cf3 CLLocationManagerDelegate\cf0 , \cf3 MKMapViewDelegate\cf0  \{\
     \
     \cf2 // MARK: Properties\
-\pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 \cf0     \cf4 @IBOutlet\cf0  \cf4 weak\cf0  \cf4 var\cf0  mapView: \cf3 MKMapView\cf0 !\
     \cf4 @IBOutlet\cf0  \cf4 weak\cf0  \cf4 var\cf0  destinationName: \cf3 UILabel\cf0 !\
     \cf4 @IBOutlet\cf0  \cf4 weak\cf0  \cf4 var\cf0  datePicker: \cf3 UIDatePicker\cf0 !\
@@ -316,5 +311,12 @@ Test File Issues:\
     \}\
     \}\
 \
-*/\cf0 \
+*/\
+\
+\
+\
+\
+\
+\
+\
 }
