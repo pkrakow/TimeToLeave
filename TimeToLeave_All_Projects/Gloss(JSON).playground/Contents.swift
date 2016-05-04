@@ -70,12 +70,10 @@ class jsonTestClass: Glossy {
 }
 
 
+
 let testObject1 = jsonTestClass(ownerId: 123, userName: "someGuy")
 let jsonOne = testObject1?.toJSON()
 let testObject2 = jsonTestClass(json: jsonOne!)
 testObject2?.ownerId = 321
 let jsonTwo = testObject2?.toJSON()
-
-
-let testTime = NSDate()
-let testTimeToLeave = DataManager.getTimeToLeave(testTime)
+ 

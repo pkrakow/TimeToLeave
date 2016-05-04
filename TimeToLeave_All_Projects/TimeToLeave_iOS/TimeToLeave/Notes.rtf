@@ -7,10 +7,11 @@
 \deftab529
 \pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 
-\f0\b\fs22 \cf0 Notes to self 4.30.2016:
+\f0\b\fs22 \cf0 Notes to self 5.03.2016:
 \f1\b0 \cf2 \CocoaLigature0 \
 \
 Playing around with a function to call Google Maps directly from the app when a destination is created	\
+Also playing around with AWS Lambda to see if I can get a cron job to process destinations\
 \
 ---------------------------------------------------------------------------------------\
 Remember to commit frequently:\
@@ -152,6 +153,7 @@ LocationManager:\
 \cf4 class\cf0  DestinationViewController: \cf3 UIViewController\cf0 , \cf3 CLLocationManagerDelegate\cf0 , \cf3 MKMapViewDelegate\cf0  \{\
     \
     \cf2 // MARK: Properties\
+\pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 \cf0     \cf4 @IBOutlet\cf0  \cf4 weak\cf0  \cf4 var\cf0  mapView: \cf3 MKMapView\cf0 !\
     \cf4 @IBOutlet\cf0  \cf4 weak\cf0  \cf4 var\cf0  destinationName: \cf3 UILabel\cf0 !\
     \cf4 @IBOutlet\cf0  \cf4 weak\cf0  \cf4 var\cf0  datePicker: \cf3 UIDatePicker\cf0 !\
@@ -196,10 +198,8 @@ LocationManager:\
 \
         \
     \}\
-\pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 \cf2 \
 \
-\pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 \cf0     \cf2 // MARK: CLLocationManagerDelegates\
 \cf0     \cf4 func\cf0  destinationViewControllerLocationManager(manager: \cf3 CLLocationManager\cf0 , didChangeAuthorizationStatus status: \cf3 CLAuthorizationStatus\cf0 ) \{\
         \
@@ -225,13 +225,11 @@ LocationManager:\
         \cf2 //let location = locations.last! as CLLocation\
 \cf0         \cf2 //centerMapOnLocation(location)\
 \cf0     \}\
-\pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 \cf2 \
 \
 \
 \
 \
-\pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 \cf0     \
     \cf4 func\cf0  startBackgroundLocationMonitoring() \{\
         \
@@ -268,7 +266,6 @@ LocationManager:\
 \
 \
 \
-\pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 \cf2 \
 General References:\
 \

@@ -26,33 +26,6 @@ public class DataManager {
     }
   
     
-    public class func getTimeToLeave(arrivalTime: NSDate) -> NSDate {
-        
-        let googleMapsURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=2043+Mezes+Avenue+Belmont+CA+94002&destinations=701+North+First+Street+Sunnyvale+CA+94089&mode=driving&language=en-US&units=imperial&key=AIzaSyAmFk8PdN-erkkgeg0PReI4DvWXUX0Mfmo"
-
-        loadDataFromURL(NSURL(string: googleMapsURL)!, completion:{(data, error) -> Void in
-
-            if let data = data {
-  
-              
-                 var json: [String: AnyObject]!
-                 
-                 // 1: deserialize the data using NSJSONSerialization
-                 do {
-                    json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? [String: AnyObject]
-                    } catch {
-                 print(error)
-
-                 }
-                let googleResult = Destination(json: json)
-                print("googleResult: ", googleResult?.destination_addresses)
-
-
-            }
-        })
-        
-        return arrivalTime
-    }
     
     
   public class func getTopAppsDataFromFileWithSuccess(success: ((data: NSData) -> Void)) {

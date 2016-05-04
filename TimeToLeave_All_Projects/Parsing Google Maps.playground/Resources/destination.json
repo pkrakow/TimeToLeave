@@ -1,0 +1,22 @@
+{
+    "destination_addresses" : [ "701 1st St, Sunnyvale, CA 94089, USA" ],
+    "origin_addresses" : [ "2043 Mezes Ave, Belmont, CA 94002, USA" ],
+    "rows" : [
+              {
+              "elements" : [
+                            {
+                            "distance" : {
+                            "text" : "21.1 mi",
+                            "value" : 34023
+                            },
+                            "duration" : {
+                            "text" : "29 mins",
+                            "value" : 1743
+                            },
+                            "status" : "OK"
+                            }
+                            ]
+              }
+              ],
+    "status" : "OK"
+}

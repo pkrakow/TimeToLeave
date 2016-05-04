@@ -122,7 +122,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         self.jsonDestination = self.toJSON()        
 
     }
-    
+/*
     func getTimeToLeave(arrivalTime: NSDate, destinationMapItem: MKMapItem) -> NSDate {
         
         let googleMapsURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=2043+Mezes+Avenue+Belmont+CA+94002&destinations=701+North+First+Street+Sunnyvale+CA+94089&mode=driving&language=en-US&units=imperial&key=AIzaSyAmFk8PdN-erkkgeg0PReI4DvWXUX0Mfmo"
@@ -150,7 +150,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         })
         
         return arrivalTime
-    }
+    }*/
     
     func loadDataFromURL(url: NSURL, completion:(data: NSData?, error: NSError?) -> Void) {
             let session = NSURLSession.sharedSession()
