@@ -16,6 +16,8 @@
 		DA4BA4EF1CA58AD400EEBEB7 /* DeveloperAuthenticationClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4BA4EE1CA58AD400EEBEB7 /* DeveloperAuthenticationClient.m */; };
 		DA4CC7C11C58920B00F5A079 /* DestinationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4CC7C01C58920B00F5A079 /* DestinationTableViewController.swift */; };
 		DA4CC7C31C59137E00F5A079 /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4CC7C21C59137E00F5A079 /* LocationTableViewCell.swift */; };
+		DA5266E51CDE2A8B00AD997E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5266E41CDE2A8B00AD997E /* User.swift */; };
+		DA5AE06B1CDAEDCB00062DF3 /* googleDistanceMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AE06A1CDAEDCB00062DF3 /* googleDistanceMatrix.swift */; };
 		DA7527C81C4D323D00679032 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA7527C71C4D323D00679032 /* MapKit.framework */; };
 		DA7527CA1C4D692200679032 /* Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DA7527C91C4D692200679032 /* Notes.rtf */; };
 		DA7527CC1C4D928700679032 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7527CB1C4D928700679032 /* Destination.swift */; };
@@ -53,6 +55,8 @@
 		DA4BA4EE1CA58AD400EEBEB7 /* DeveloperAuthenticationClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeveloperAuthenticationClient.m; sourceTree = "<group>"; };
 		DA4CC7C01C58920B00F5A079 /* DestinationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationTableViewController.swift; sourceTree = "<group>"; };
 		DA4CC7C21C59137E00F5A079 /* LocationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
+		DA5266E41CDE2A8B00AD997E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		DA5AE06A1CDAEDCB00062DF3 /* googleDistanceMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = googleDistanceMatrix.swift; sourceTree = "<group>"; };
 		DA7527C71C4D323D00679032 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		DA7527C91C4D692200679032 /* Notes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Notes.rtf; sourceTree = "<group>"; };
 		DA7527CB1C4D928700679032 /* Destination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
@@ -157,6 +161,8 @@
 				DA4CC7C21C59137E00F5A079 /* LocationTableViewCell.swift */,
 				DA9B9EB71C4C0D1100B107D5 /* DestinationViewController.swift */,
 				DA7527CB1C4D928700679032 /* Destination.swift */,
+				DA5AE06A1CDAEDCB00062DF3 /* googleDistanceMatrix.swift */,
+				DA5266E41CDE2A8B00AD997E /* User.swift */,
 				DA7527C91C4D692200679032 /* Notes.rtf */,
 				DA9B9EBC1C4C0D1100B107D5 /* Assets.xcassets */,
 				DA4BA4E61CA5829700EEBEB7 /* DeveloperAuthenticated */,
@@ -341,7 +347,9 @@
 				DA4BA4EF1CA58AD400EEBEB7 /* DeveloperAuthenticationClient.m in Sources */,
 				DA4BA4E81CA582CF00EEBEB7 /* Crypto.m in Sources */,
 				DA9B9EB61C4C0D1100B107D5 /* AppDelegate.swift in Sources */,
+				DA5AE06B1CDAEDCB00062DF3 /* googleDistanceMatrix.swift in Sources */,
 				DA1AD7201C585F3100458E2F /* DestinationTableViewCell.swift in Sources */,
+				DA5266E51CDE2A8B00AD997E /* User.swift in Sources */,
 				DA3AEEEA1CA2D7FF00405848 /* LoginViewController.swift in Sources */,
 				DAF5B80C1CA43CFE0008BA95 /* Constants.swift in Sources */,
 				DA7527CC1C4D928700679032 /* Destination.swift in Sources */,

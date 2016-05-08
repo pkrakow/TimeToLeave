@@ -89,6 +89,22 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
             let state = destination.destinationMapItem.placemark.administrativeArea {
                 cellLabel?.appendContentsOf(": \(city), \(state)")
         }
+        
+        // Temp code for adding TTL to the table view cell
+        if (destination.departureTime != nil) {
+            let hour = NSCalendar.currentCalendar().component(.Hour, fromDate: destination.departureTime!)
+            let minute = NSCalendar.currentCalendar().component(.Minute, fromDate: destination.departureTime!)
+            
+            var TTL: String?
+            if minute < 10 {
+                TTL = "   " + String(hour) + ":0" + String(minute)
+            } else {
+                TTL = "   " + String(hour) + ":" + String(minute)
+            }
+            print("TTL = ", TTL)
+            cellLabel?.appendContentsOf(TTL!)
+        }
+        
         cell.nameLabel.text = cellLabel
 
         return cell
@@ -141,21 +157,6 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
     }
     
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
     
     // MARK: - Navigation
 
@@ -175,7 +176,7 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
                 let selectedDestination = destinations[indexPath.row]
                 // Set the detail view to show the contents of that cell
                 destinationDetailViewController.thisDestination = selectedDestination
-
+                selectedDestination.updateDepartureTime()
             }
         }
 
@@ -217,11 +218,8 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
         // Save each destination to AWS DynamoDB
         for destination in destinations {
             
-            print("Preparing to save: ", destination.jsonDestination)
-            //print("dynamoDBObjectMapper.description: ", dynamoDBObjectMapper.description)
             dynamoDBObjectMapper.save(destination)
-            //let testThingy1 = testThingy()
-            //dynamoDBObjectMapper.save(testThingy1)
+
             
         }
         
@@ -236,46 +234,5 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
 }
 
 
-// MARK: Test Classes for debugging DynamoDB - Delete later
-
-class testThingy :AWSDynamoDBObjectModel ,AWSDynamoDBModeling {
-    
-    // MARK: Properties
-    var uniqueDestinationIdentifier:String? = NSUUID().UUIDString
-    var uniqueDeviceIdentifier:String? = UIDevice.currentDevice().identifierForVendor!.UUIDString
-
-    
-    
-    class func dynamoDBTableName() -> String! {
-        return Constants.TimeToLeaveDynamoDBTableName
-    }
-    
-    
-    // if we define attribute it must be included when calling it in function testing...
-    class func hashKeyAttribute() -> String! {
-        return "uniqueDestinationIdentifier"
-    }
-    
-    class func rangeKeyAttribute() -> String! {
-        return "uniqueDeviceIdentifier"
-    }
-    
-    
-    class func ignoreAttributes() -> Array<AnyObject>! {
-        return nil
-
-    }
-    
-    //MARK: NSObjectProtocol hack
-    override func isEqual(object: AnyObject?) -> Bool {
-        return super.isEqual(object)
-    }
-    
-    override func `self`() -> Self {
-        return self
-    }
-
-    
-}
 
 

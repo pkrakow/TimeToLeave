@@ -92,7 +92,7 @@ func loadDataFromURL(url: NSURL, completion:(data: NSData?, error: NSError?) -> 
             completion(data: nil, error: responseError)
         } else if let httpResponse = response as? NSHTTPURLResponse {
             if httpResponse.statusCode != 200 {
-                let statusError = NSError(domain:"com.quackdonk", code:httpResponse.statusCode, userInfo:[NSLocalizedDescriptionKey : "HTTP status code has unexpected value."])
+                let statusError = NSError(domain:"com.timetoleave", code:httpResponse.statusCode, userInfo:[NSLocalizedDescriptionKey : "HTTP status code has unexpected value."])
                 completion(data: nil, error: statusError)
             } else {
                 completion(data: data, error: nil)

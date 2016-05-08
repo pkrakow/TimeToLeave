@@ -21,7 +21,7 @@ class LocationTableViewCell: UITableViewCell, MKMapViewDelegate {
         
         // mapview setup to show user location
         mapView.delegate = self
-        mapView.showsUserLocation = true
+        //mapView.showsUserLocation = true
         mapView.mapType = MKMapType(rawValue: 0)!
         mapView.scrollEnabled = false
         mapView.zoomEnabled = false

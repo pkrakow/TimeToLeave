@@ -6,12 +6,6 @@
 //  Copyright © 2016 Paul Krakow. All rights reserved.
 //
 //
-//  Note: Use the Amazon Command Line Interface create-table command to create the Destinations DynamoDB Table
-//
-//  aws dynamodb create-table --table-name ttlTempTable5 --attribute-definitions AttributeName=uniqueDestinationID,AttributeType=S AttributeName=uniqueUserID,AttributeType=S AttributeName=jsonDestination,AttributeType=M --key-schema AttributeName=uniqueDestinationID,KeyType=HASH AttributeName=uniqueUserID,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
-
-
-
 
 
 //import CoreLocation
@@ -32,6 +26,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
     
     var destinationMapItem: MKMapItem
     var arrivalTime: NSDate
+    var departureTime: NSDate?
     var arrivalDays: [Bool]
     var weeklyTrip: Bool
     
@@ -66,8 +61,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         
         // Initialize properties
         self.uniqueDestinationID = NSUUID().UUIDString
-        self.uniqueUserID = AmazonClientManager.sharedInstance.credentialsProvider?.logins["graph.facebook.com"] as? String
-        //self.uniqueUserID = AmazonClientManager.sharedInstance.credentialsProvider?.getIdentityId().result as? String
+        self.uniqueUserID = User.sharedInstance.uniqueUserID
         self.uniqueDeviceID = UIDevice.currentDevice().identifierForVendor!.UUIDString
         
         self.destinationMapItem = destinationMapItem
@@ -76,9 +70,9 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         self.weeklyTrip = false
         
         super.init()
-
+        updateDepartureTime()
         self.jsonDestination = self.toJSON()
-        //print("jsonDestination: ", self.jsonDestination)
+
         
     }
     
@@ -95,12 +89,16 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         
         self.destinationMapItem = ("destinationMapItem" <~~ json)!
         self.arrivalTime = Decoder.decodeDate("arrivalTime", dateFormatter: dateFormatter)(json)!
+        self.departureTime = Decoder.decodeDate("departureTime", dateFormatter: dateFormatter)(json)!
         self.arrivalDays = ("arrivalDays" <~~ json)!
         self.weeklyTrip = ("weeklyTrip" <~~ json)!
         
         self.jsonDestination = json
         
         super.init()
+        
+        // Remember to remove this line after AWS starts correcting departure times
+        updateDepartureTime()
         
     }
     
@@ -118,60 +116,136 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         self.weeklyTrip = weeklyTrip
 
         super.init()
-        
+        updateDepartureTime()
         self.jsonDestination = self.toJSON()        
 
     }
-/*
-    func getTimeToLeave(arrivalTime: NSDate, destinationMapItem: MKMapItem) -> NSDate {
+
+    // MARK: Departure Time Functions
+    
+    func updateDepartureTime() {
         
-        let googleMapsURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=2043+Mezes+Avenue+Belmont+CA+94002&destinations=701+North+First+Street+Sunnyvale+CA+94089&mode=driving&language=en-US&units=imperial&key=AIzaSyAmFk8PdN-erkkgeg0PReI4DvWXUX0Mfmo"
+        // Make the call to Google Maps to get travel time json
+        getGoogleDistanceMatrixWithSuccess { (data) -> Void in
+            var json: [String: AnyObject]!
+            
+            // 1: deserialize the data using NSJSONSerialization
+            do {
+                
+                json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! [String: AnyObject]
+            } catch {
+                print(error)
+                
+            }
+            
+            // 2: Initialize an instance of DistanceMatrix by feeding the JSON data into it's constructor
+            guard let thisDistanceMatrix = googleDistanceMatrix(json: json) else {
+                print("Error initializing object")
+                return
+            }
+            
+            // Check to make sure Google returned a valid travel time
+            if thisDistanceMatrix.status == "OK" {
+                if thisDistanceMatrix.rows![0].trips![0].status == "OK" {
+                    guard let travelTimeString = thisDistanceMatrix.rows![0].trips![0].duration!.text else {
+                        print("No duration")
+                        return
+                    }
+                    var travelTimeStringArray = travelTimeString.componentsSeparatedByString(" ")
+                    let travelTimeDouble = Double(travelTimeStringArray[0])
+                    self.departureTime = self.arrivalTime.dateByAddingTimeInterval(-1*60*travelTimeDouble!)
+                    print("arrivalTime = ", self.arrivalTime)
+                    print("travelTime = ", travelTimeDouble)
+                    print("departureTime = ", self.departureTime)
+                } else {
+                    print("Trip Status != OK")
+                }
+            } else {
+                print("Distance Matrix Status != OK")
+            }
+        }
+        
+    }
+    
+    
+    func getGoogleDistanceMatrixWithSuccess(success: ((data: NSData!) -> Void)) {
+        
+        guard let googleMapsURL = buildGoogleMapsURL(destinationMapItem) else {
+            print("Unable to build googleMapsURL")
+            return
+        }
         
         loadDataFromURL(NSURL(string: googleMapsURL)!, completion:{(data, error) -> Void in
             
             if let data = data {
-                
-                
-                var json: [String: AnyObject]!
-                
-                // 1: deserialize the data using NSJSONSerialization
-                do {
-                    json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? [String: AnyObject]
-                } catch {
-                    print(error)
-                    
-                }
-                let googleResult = json as JSON
-                print("googleResult: ", googleResult)
-                let testExtraction = "destination_addresses" <~~ json
-                
-                
+                //3
+                success(data: data)
             }
         })
+    }
+    
+    
+    
+    func buildGoogleMapsURL(destinationMapItem: MKMapItem) -> String? {
         
-        return arrivalTime
-    }*/
+        var googleMapsURL: String?
+        var origin: String?
+        var destination: String?
+        User.sharedInstance.locationManager.requestLocation()
+        
+
+            
+        // Check to make sure you have a location
+        if (User.sharedInstance.locationManager.location != nil){
+            
+            // Set the origin to the user's location
+            origin = String(User.sharedInstance.locationManager.location!.coordinate.latitude) + "," + String(User.sharedInstance.locationManager.location!.coordinate.longitude)
+            
+            // Set the destination to the destination (duh)
+            destination = "&destinations=" + String(destinationMapItem.placemark.coordinate.latitude) + "," + String(destinationMapItem.placemark.coordinate.longitude)
+            
+            // mode options: driving; walking; bicycling; transit
+            let mode: String = "&mode=driving"
+            //let mode: String = "&mode=bicycling"
+            
+            
+            googleMapsURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins="
+            googleMapsURL?.appendContentsOf(origin!)
+            googleMapsURL?.appendContentsOf(destination!)
+            googleMapsURL?.appendContentsOf(mode)
+            googleMapsURL?.appendContentsOf("&language=en-US&units=imperial")
+            
+            
+            print("googleMapsURL: ", googleMapsURL)
+        } else {
+            googleMapsURL = nil
+        }
+        
+        return googleMapsURL
+
+    }
+    
     
     func loadDataFromURL(url: NSURL, completion:(data: NSData?, error: NSError?) -> Void) {
-            let session = NSURLSession.sharedSession()
-            
-            let loadDataTask = session.dataTaskWithURL(url) { (data, response, error) -> Void in
-                if let responseError = error {
-                    completion(data: nil, error: responseError)
-                } else if let httpResponse = response as? NSHTTPURLResponse {
-                    if httpResponse.statusCode != 200 {
-                        let statusError = NSError(domain:"com.raywenderlich", code:httpResponse.statusCode, userInfo:[NSLocalizedDescriptionKey : "HTTP status code has unexpected value."])
-                        completion(data: nil, error: statusError)
-                    } else {
-                        completion(data: data, error: nil)
-                    }
+        let session = NSURLSession.sharedSession()
+        
+        let loadDataTask = session.dataTaskWithURL(url) { (data, response, error) -> Void in
+            if let responseError = error {
+                completion(data: nil, error: responseError)
+            } else if let httpResponse = response as? NSHTTPURLResponse {
+                if httpResponse.statusCode != 200 {
+                    let statusError = NSError(domain:"com.timetoleave", code:httpResponse.statusCode, userInfo:[NSLocalizedDescriptionKey : "HTTP status code has unexpected value."])
+                    completion(data: nil, error: statusError)
+                } else {
+                    completion(data: data, error: nil)
                 }
             }
-            
-            loadDataTask.resume()
         }
+        
+        loadDataTask.resume()
+    }
 
-/*
+
     // MARK: CLLocationManagerDelegates
     func destinationViewControllerLocationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
@@ -190,7 +264,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
             print("Location Denied")
         }
     }
-  */
+  
     
     // MARK: JSON Functions
     
@@ -205,6 +279,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
             "uniqueUserID" ~~> self.uniqueUserID,
             "uniqueDeviceID" ~~> self.uniqueDeviceID,
             Encoder.encodeDate("arrivalTime", dateFormatter: dateFormatter)(self.arrivalTime),
+            Encoder.encodeDate("departureTime", dateFormatter: dateFormatter)(self.departureTime),
             "arrivalDays" ~~> self.arrivalDays,
             "weeklyTrip" ~~> self.weeklyTrip,
         

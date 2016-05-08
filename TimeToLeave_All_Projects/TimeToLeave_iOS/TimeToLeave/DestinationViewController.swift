@@ -36,7 +36,7 @@ class DestinationViewController: UIViewController, MKMapViewDelegate {
         
         // setup the mapView to show the user's location
         mapView.delegate = self
-        mapView.showsUserLocation = true
+        //mapView.showsUserLocation = true
         mapView.mapType = MKMapType(rawValue: 0)!
         
         
@@ -45,7 +45,7 @@ class DestinationViewController: UIViewController, MKMapViewDelegate {
             
             // Set the minimum date to now
             arrivalTime = NSDate()
-            datePicker.minimumDate = arrivalTime
+            //datePicker.minimumDate = arrivalTime
             
             // Check if you have an inputLocation from the LocationTableViewController
             if (inputLocation != nil) {

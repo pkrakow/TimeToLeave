@@ -1,16 +1,21 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf460
 {\fonttbl\f0\fnil\fcharset0 Menlo-Bold;\f1\fnil\fcharset0 Menlo-Regular;}
-{\colortbl;\red255\green255\blue255;\red0\green116\blue0;\red92\green38\blue153;\red170\green13\blue145;
-\red63\green110\blue116;\red46\green13\blue110;\red28\green0\blue207;\red196\green26\blue22;\red14\green14\blue255;
-}
+{\colortbl;\red255\green255\blue255;\red0\green116\blue0;\red92\green38\blue153;\red38\green71\blue75;
+\red170\green13\blue145;\red63\green110\blue116;\red46\green13\blue110;\red28\green0\blue207;\red196\green26\blue22;
+\red14\green14\blue255;}
 \margl1440\margr1440\vieww9000\viewh8400\viewkind0
 \deftab529
 \pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 
-\f0\b\fs22 \cf0 Notes to self 5.03.2016:
+\f0\b\fs22 \cf0 Notes to self 5.08.2016:
 \f1\b0 \cf2 \CocoaLigature0 \
 \
-Playing around with a function to call Google Maps directly from the app when a destination is created	\
+Finish debugging the function to call Google Maps directly from the app when a destination is created
+\f0\b \cf0 \
+\
+Also broke the AWS upload - probably have to exclude some objects from the upload\
+
+\f1\b0 \cf2 \
 Also playing around with AWS Lambda to see if I can get a cron job to process destinations\
 \
 ---------------------------------------------------------------------------------------\
@@ -73,6 +78,7 @@ DestinationTableViewController:\
 4) Modify NSArchiver code so it serves as a backup to DynamoDB (or just comment it out)\
 5) Add code to return to login/logout\
 6) Update the design of the cells (include time to leave, and sort by time to leave)\
+	a) Remember to remove the code that hacks TTL into the cell label\
 \
 1) [Done] Add code to populate the Table\
 2) [Done] Add code to edit entries\
@@ -101,6 +107,11 @@ DestinationViewController:\
 6) Add code to save a different name to the destination\
 7) Add code to return to search (clicking on map)\
 ?) Sort out the code for managing each destination's location manager and for tracking user location\
+\
+Destination:\
+1) Add modes of transportation\
+2) Add versioning for cloud vs client storage management\
+3) Remember to remove the \cf4 updateDepartureTime\cf0 () call from the json initializer after AWS takes over that function\cf2 \
 \
 \
 DynamoDB:\
@@ -150,13 +161,13 @@ LocationManager:\
 \
 \
 \pard\tx529\pardeftab529\pardirnatural\partightenfactor0
-\cf4 class\cf0  DestinationViewController: \cf3 UIViewController\cf0 , \cf3 CLLocationManagerDelegate\cf0 , \cf3 MKMapViewDelegate\cf0  \{\
+\cf5 class\cf0  DestinationViewController: \cf3 UIViewController\cf0 , \cf3 CLLocationManagerDelegate\cf0 , \cf3 MKMapViewDelegate\cf0  \{\
     \
     \cf2 // MARK: Properties\
 \pard\tx529\pardeftab529\pardirnatural\partightenfactor0
-\cf0     \cf4 @IBOutlet\cf0  \cf4 weak\cf0  \cf4 var\cf0  mapView: \cf3 MKMapView\cf0 !\
-    \cf4 @IBOutlet\cf0  \cf4 weak\cf0  \cf4 var\cf0  destinationName: \cf3 UILabel\cf0 !\
-    \cf4 @IBOutlet\cf0  \cf4 weak\cf0  \cf4 var\cf0  datePicker: \cf3 UIDatePicker\cf0 !\
+\cf0     \cf5 @IBOutlet\cf0  \cf5 weak\cf0  \cf5 var\cf0  mapView: \cf3 MKMapView\cf0 !\
+    \cf5 @IBOutlet\cf0  \cf5 weak\cf0  \cf5 var\cf0  destinationName: \cf3 UILabel\cf0 !\
+    \cf5 @IBOutlet\cf0  \cf5 weak\cf0  \cf5 var\cf0  datePicker: \cf3 UIDatePicker\cf0 !\
 \
     \
     \cf2 var locationManager: CLLocationManager!\
@@ -164,15 +175,15 @@ LocationManager:\
 \cf0     \cf2 var matchingItems: [MKMapItem] = [MKMapItem]()\
 \cf0     \
     \cf2 // Variables for creating a destination\
-\cf0     \cf4 var\cf0  destinationDate = \cf3 NSDate\cf0 ()\
-    \cf4 var\cf0  destinationTime: [\cf3 Int\cf0 ]?\
+\cf0     \cf5 var\cf0  destinationDate = \cf3 NSDate\cf0 ()\
+    \cf5 var\cf0  destinationTime: [\cf3 Int\cf0 ]?\
     \cf2 //var searchLocation: CLLocationCoordinate2D?\
-\cf0     \cf4 var\cf0  inputLocation: \cf3 MKMapItem\cf0 ?\
-    \cf4 var\cf0  destination: \cf5 Destination\cf0 ?\
+\cf0     \cf5 var\cf0  inputLocation: \cf3 MKMapItem\cf0 ?\
+    \cf5 var\cf0  destination: \cf6 Destination\cf0 ?\
     \
     \
-    \cf4 override\cf0  \cf4 func\cf0  viewDidLoad() \{\
-        \cf4 super\cf0 .\cf6 viewDidLoad\cf0 ()\
+    \cf5 override\cf0  \cf5 func\cf0  viewDidLoad() \{\
+        \cf5 super\cf0 .\cf7 viewDidLoad\cf0 ()\
 \
         \
         \cf2 // Create a location manager object\
@@ -188,9 +199,9 @@ LocationManager:\
 \cf0         \cf2 locationManager.desiredAccuracy = kCLLocationAccuracyBest\
 \cf0         \
         \cf2 // mapview setup to show user location\
-\cf0         \cf5 mapView\cf0 .\cf3 delegate\cf0  = \cf4 self\cf0 \
-        \cf5 mapView\cf0 .\cf3 showsUserLocation\cf0  = \cf4 true\cf0 \
-        \cf5 mapView\cf0 .\cf3 mapType\cf0  = \cf3 MKMapType\cf0 (rawValue: \cf7 0\cf0 )!\
+\cf0         \cf6 mapView\cf0 .\cf3 delegate\cf0  = \cf5 self\cf0 \
+        \cf6 mapView\cf0 .\cf3 showsUserLocation\cf0  = \cf5 true\cf0 \
+        \cf6 mapView\cf0 .\cf3 mapType\cf0  = \cf3 MKMapType\cf0 (rawValue: \cf8 0\cf0 )!\
         \
         \cf2 // Request the current location\
 \cf0         \cf2 locationManager.requestLocation()\
@@ -201,27 +212,27 @@ LocationManager:\
 \cf2 \
 \
 \cf0     \cf2 // MARK: CLLocationManagerDelegates\
-\cf0     \cf4 func\cf0  destinationViewControllerLocationManager(manager: \cf3 CLLocationManager\cf0 , didChangeAuthorizationStatus status: \cf3 CLAuthorizationStatus\cf0 ) \{\
+\cf0     \cf5 func\cf0  destinationViewControllerLocationManager(manager: \cf3 CLLocationManager\cf0 , didChangeAuthorizationStatus status: \cf3 CLAuthorizationStatus\cf0 ) \{\
         \
-        \cf4 if\cf0  status == .\cf6 AuthorizedAlways\cf0  \{\
+        \cf5 if\cf0  status == .\cf7 AuthorizedAlways\cf0  \{\
             \cf2 // do stuff when location services authorized\
 \cf0         \
-        \} \cf4 else\cf0  \{\
+        \} \cf5 else\cf0  \{\
             \cf2 // do stuff when location services denied\
 \cf0         \}\
     \}\
     \
     \cf2 // didFailWithError Delegate\
-\cf0     \cf4 func\cf0  locationManager(manager: \cf3 CLLocationManager\cf0 , didFailWithError error: \cf3 NSError\cf0 ) \{\
-        \cf4 if\cf0  error.\cf3 code\cf0  == \cf3 CLError\cf0 .\cf6 Denied\cf0 .\cf3 rawValue\cf0  \{\
-            manager.\cf6 stopUpdatingLocation\cf0 ()\
-            \cf6 print\cf0 (\cf8 "Location Denied"\cf0 )\
+\cf0     \cf5 func\cf0  locationManager(manager: \cf3 CLLocationManager\cf0 , didFailWithError error: \cf3 NSError\cf0 ) \{\
+        \cf5 if\cf0  error.\cf3 code\cf0  == \cf3 CLError\cf0 .\cf7 Denied\cf0 .\cf3 rawValue\cf0  \{\
+            manager.\cf7 stopUpdatingLocation\cf0 ()\
+            \cf7 print\cf0 (\cf9 "Location Denied"\cf0 )\
         \}\
     \}\
     \
     \cf2 // didUpdateLocations Delegate\
-\cf0     \cf4 func\cf0  locationManager(manager: \cf3 CLLocationManager\cf0 , didUpdateLocations locations: [\cf3 CLLocation\cf0 ]) \{\
-        \cf6 print\cf0 (\cf8 "Location: "\cf0 , locations)\
+\cf0     \cf5 func\cf0  locationManager(manager: \cf3 CLLocationManager\cf0 , didUpdateLocations locations: [\cf3 CLLocation\cf0 ]) \{\
+        \cf7 print\cf0 (\cf9 "Location: "\cf0 , locations)\
         \cf2 //let location = locations.last! as CLLocation\
 \cf0         \cf2 //centerMapOnLocation(location)\
 \cf0     \}\
@@ -231,36 +242,34 @@ LocationManager:\
 \
 \
 \cf0     \
-    \cf4 func\cf0  startBackgroundLocationMonitoring() \{\
+    \cf5 func\cf0  startBackgroundLocationMonitoring() \{\
         \
         \cf2 // Create a location manager object\
-\cf0         \cf5 locationManager\cf0  = \cf3 CLLocationManager\cf0 ()\
+\cf0         \cf6 locationManager\cf0  = \cf3 CLLocationManager\cf0 ()\
         \
         \cf2 // Set the delegate\
-\cf0         \cf5 locationManager\cf0 .\cf3 delegate\cf0  = \cf4 self\cf0 \
+\cf0         \cf6 locationManager\cf0 .\cf3 delegate\cf0  = \cf5 self\cf0 \
         \
         \cf2 // Request location authorization\
-\cf0         \cf5 locationManager\cf0 .\cf6 requestAlwaysAuthorization\cf0 ()\
+\cf0         \cf6 locationManager\cf0 .\cf7 requestAlwaysAuthorization\cf0 ()\
         \
         \cf2 // Set an accuracy level.  The bigger the distance, the better the energy savings\
-\cf0         \cf5 locationManager\cf0 .\cf3 desiredAccuracy\cf0  = \cf3 kCLLocationAccuracyKilometer\cf0 \
+\cf0         \cf6 locationManager\cf0 .\cf3 desiredAccuracy\cf0  = \cf3 kCLLocationAccuracyKilometer\cf0 \
         \
         \cf2 // Set a distance filter (in meters) - only needed for update method\
 \cf0         \cf2 //locationManager.distanceFilter = 500\
 \cf0         \
         \cf2 // Enable automatic pausing\
-\cf0         \cf5 locationManager\cf0 .\cf3 pausesLocationUpdatesAutomatically\cf0  = \cf4 true\cf0 \
+\cf0         \cf6 locationManager\cf0 .\cf3 pausesLocationUpdatesAutomatically\cf0  = \cf5 true\cf0 \
         \
         \cf2 // Specify that the app is tracking automotive navigation\
-\cf0         \cf5 locationManager\cf0 .\cf3 activityType\cf0  = \cf3 CLActivityType\cf0 .\cf6 AutomotiveNavigation\cf0 \
+\cf0         \cf6 locationManager\cf0 .\cf3 activityType\cf0  = \cf3 CLActivityType\cf0 .\cf7 AutomotiveNavigation\cf0 \
         \
         \cf2 // Enable background location updates\
-\cf0         \cf5 locationManager\cf0 .\cf3 allowsBackgroundLocationUpdates\cf0  = \cf4 true\cf0 \
+\cf0         \cf6 locationManager\cf0 .\cf3 allowsBackgroundLocationUpdates\cf0  = \cf5 true\cf0 \
         \
         \cf2 // Start location monitoring to track when user changes location\
-\cf0         \cf5 locationManager\cf0 .\cf6 startMonitoringSignificantLocationChanges\cf0 ()\
-        \
-        \
+\cf0         \cf6 locationManager\cf0 .\cf7 startMonitoringSignificantLocationChanges\cf0 ()       \
         \
     \}\
 \
@@ -272,13 +281,13 @@ General References:\
 \
 Location Based Services Guide:\
 \pard\tx529\pardeftab529\pardirnatural\partightenfactor0
-{\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/LocationAwarenessPG/CoreLocation/CoreLocation.html"}}{\fldrslt \cf9 https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/LocationAwarenessPG/CoreLocation/CoreLocation.html}}\
+{\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/LocationAwarenessPG/CoreLocation/CoreLocation.html"}}{\fldrslt \cf10 https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/LocationAwarenessPG/CoreLocation/CoreLocation.html}}\
 \
-Energy Efficiency Guide: {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/ios/documentation/Performance/Conceptual/EnergyGuide-iOS/LocationBestPractices.html#//apple_ref/doc/uid/TP40015243-CH24"}}{\fldrslt \cf9 https://developer.apple.com/library/ios/documentation/Performance/Conceptual/EnergyGuide-iOS/LocationBestPractices.html#//apple_ref/doc/uid/TP40015243-CH24}}\
+Energy Efficiency Guide: {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/ios/documentation/Performance/Conceptual/EnergyGuide-iOS/LocationBestPractices.html#//apple_ref/doc/uid/TP40015243-CH24"}}{\fldrslt \cf10 https://developer.apple.com/library/ios/documentation/Performance/Conceptual/EnergyGuide-iOS/LocationBestPractices.html#//apple_ref/doc/uid/TP40015243-CH24}}\
 \
 Good tutorial for MapKit and Map Searches:\
 \pard\tx529\pardeftab529\pardirnatural\partightenfactor0
-{\field{\*\fldinst{HYPERLINK "http://www.thorntech.com/2016/01/how-to-search-for-location-using-apples-mapkit/"}}{\fldrslt \cf9 http://www.thorntech.com/2016/01/how-to-search-for-location-using-apples-mapkit/}}\
+{\field{\*\fldinst{HYPERLINK "http://www.thorntech.com/2016/01/how-to-search-for-location-using-apples-mapkit/"}}{\fldrslt \cf10 http://www.thorntech.com/2016/01/how-to-search-for-location-using-apples-mapkit/}}\
 \
 \pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 \cf0 \

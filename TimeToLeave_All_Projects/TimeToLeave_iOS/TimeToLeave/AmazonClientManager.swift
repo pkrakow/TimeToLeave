@@ -23,7 +23,7 @@ import FBSDKShareKit
 import TwitterKit
 import DigitsKit
 
-//class AmazonClientManager : NSObject, GPPSignInDelegate, AIAuthenticationDelegate {
+
 class AmazonClientManager : NSObject, GPPSignInDelegate {
     static let sharedInstance = AmazonClientManager()
     
@@ -156,6 +156,7 @@ class AmazonClientManager : NSObject, GPPSignInDelegate {
     func initializeClients(logins: [NSObject : AnyObject]?) -> AWSTask? {
         print("Initializing Clients...")
         
+        // Available logging level options: None; Error; Warn; Info; Debug; Verbose
         AWSLogger.defaultLogger().logLevel = AWSLogLevel.Verbose
         
         let identityProvider = DeveloperAuthenticatedIdentityProvider(
