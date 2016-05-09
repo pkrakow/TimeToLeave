@@ -10,10 +10,12 @@
 \f0\b\fs22 \cf0 Notes to self 5.08.2016:
 \f1\b0 \cf2 \CocoaLigature0 \
 \
-Finish debugging the function to call Google Maps directly from the app when a destination is created
+Nits to fix:\
+Set arrival time to NSDate() + Travel time\
+Delete entries from AWS when deleting them from the app (or mark them deleted)\
+Change the AWS table to a new "Destinations" table\
+Update the User object to log locations in AWS DynamoDB
 \f0\b \cf0 \
-\
-Also broke the AWS upload - probably have to exclude some objects from the upload\
 
 \f1\b0 \cf2 \
 Also playing around with AWS Lambda to see if I can get a cron job to process destinations\

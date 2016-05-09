@@ -287,7 +287,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
             "destinationMapItem.name" ~~> self.destinationMapItem.name,
             "destinationMapItem.isCurrentLocation" ~~> self.destinationMapItem.isCurrentLocation,
             "destinationMapItem.phoneNumber" ~~> self.destinationMapItem.phoneNumber,
-            "destinationMapItem.timeZone" ~~> self.destinationMapItem.timeZone,
+            //"destinationMapItem.timeZone" ~~> self.destinationMapItem.timeZone,
             "destinationMapItem.url" ~~> self.destinationMapItem.url,
             
             "destinationMapItem.placemark.name" ~~> self.destinationMapItem.placemark.name,
@@ -378,7 +378,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
     
     class func ignoreAttributes() -> Array<AnyObject>! {
         //return nil
-        return ["destinationMapItem", "arrivalTime", "arrivalDays", "weeklyTrip", "syncClient", "DocumentsDirectory", "ArchiveURL", "PropertyKey"]
+        return ["uniqueDeviceID", "destinationMapItem", "arrivalTime", "departureTime", "arrivalDays", "weeklyTrip", "syncClient", "DocumentsDirectory", "ArchiveURL", "PropertyKey"]
     }
     
     //MARK: NSObjectProtocol hack
