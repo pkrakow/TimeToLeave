@@ -1,0 +1,83 @@
+Command Line Examples
+
+Nicoles-Mac-mini:git Paul$ aws dynamodb describe-table --table-name ttlTempTable4
+{
+    "Table": {
+        "TableArn": "arn:aws:dynamodb:us-east-1:694629093321:table/ttlTempTable4",
+        "AttributeDefinitions": [
+            {
+                "AttributeName": "uniqueDestinationID",
+                "AttributeType": "S"
+            },
+            {
+                "AttributeName": "uniqueUserID",
+                "AttributeType": "S"
+            }
+        ],
+        "ProvisionedThroughput": {
+            "NumberOfDecreasesToday": 0,
+            "WriteCapacityUnits": 5,
+            "ReadCapacityUnits": 5
+        },
+        "TableSizeBytes": 12274,
+        "TableName": "ttlTempTable4",
+        "TableStatus": "ACTIVE",
+        "KeySchema": [
+            {
+                "KeyType": "HASH",
+                "AttributeName": "uniqueDestinationID"
+            },
+            {
+                "KeyType": "RANGE",
+                "AttributeName": "uniqueUserID"
+            }
+        ],
+        "ItemCount": 13,
+        "CreationDateTime": 1461343392.724
+    }
+}
+
+
+
+**************************************************************************
+
+AWS Lambda Config Event Examples
+
+
+/**
+ * Provide an event that contains the following keys:
+ *
+ *   - operation: one of the operations in the switch statement below
+ *   - payload: a parameter to pass to the operation being performed
+ */
+
+
+/** Simple ping/pong test event **/
+
+{
+  "operation": "ping"
+}
+
+
+/** Simple echo event **/
+
+{
+  "operation": "echo",
+  "payload" : "ohce"
+}
+
+
+/** List Tables **/
+{
+  "operation": "listTables"
+}
+
+
+/** Describe Table **/
+
+{
+  "operation": "describe",
+  "payload": {
+    "TableName" : "ttlTempTable4"
+  }
+}
