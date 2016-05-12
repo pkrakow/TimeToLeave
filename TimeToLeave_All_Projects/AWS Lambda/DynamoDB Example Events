@@ -1,3 +1,7 @@
+Reference Web Page:
+http://docs.aws.amazon.com/amazondynamodb/latest/gettingstartedguide/GettingStarted.NodeJs.html
+
+
 Command Line Examples
 
 Nicoles-Mac-mini:git Paul$ aws dynamodb describe-table --table-name ttlTempTable4
@@ -36,6 +40,214 @@ Nicoles-Mac-mini:git Paul$ aws dynamodb describe-table --table-name ttlTempTable
         "CreationDateTime": 1461343392.724
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+Nicoles-Mac-mini:~ Paul$ aws dynamodb scan --table-name ttlTempTable4
+{
+    "Count": 2,
+    "Items": [
+        {
+            "uniqueDestinationID": {
+                "S": "7981B625-BCA9-456F-B1A7-6B3E55C87E8A"
+            },
+            "jsonDestination": {
+                "M": {
+                    "departureTime": {
+                        "S": "5/10/16, 5:58 AM"
+                    },
+                    "uniqueDeviceID": {
+                        "S": "8FFF8BFF-A057-421B-BAF9-BFBFF637E4BF"
+                    },
+                    "destinationMapItem": {
+                        "M": {
+                            "url": {
+                                "S": "https://info.yahoo.com/company"
+                            },
+                            "placemark": {
+                                "M": {
+                                    "coordinate": {
+                                        "M": {
+                                            "latitude": {
+                                                "N": "37.417956"
+                                            },
+                                            "longitude": {
+                                                "N": "37.417956"
+                                            }
+                                        }
+                                    },
+                                    "administrativeArea": {
+                                        "S": "CA"
+                                    },
+                                    "name": {
+                                        "S": "Yahoo! Inc."
+                                    },
+                                    "countryCode": {
+                                        "S": "US"
+                                    },
+                                    "locality": {
+                                        "S": "Sunnyvale"
+                                    }
+                                }
+                            },
+                            "phoneNumber": {
+                                "S": "‎+1 (408) 349-3300"
+                            },
+                            "name": {
+                                "S": "Yahoo! Inc."
+                            },
+                            "isCurrentLocation": {
+                                "BOOL": false
+                            }
+                        }
+                    },
+                    "uniqueDestinationID": {
+                        "S": "7981B625-BCA9-456F-B1A7-6B3E55C87E8A"
+                    },
+                    "arrivalDays": {
+                        "L": [
+                            {
+                                "BOOL": false
+                            },
+                            {
+                                "BOOL": true
+                            },
+                            {
+                                "BOOL": true
+                            },
+                            {
+                                "BOOL": true
+                            },
+                            {
+                                "BOOL": true
+                            },
+                            {
+                                "BOOL": true
+                            },
+                            {
+                                "BOOL": false
+                            }
+                        ]
+                    },
+                    "weeklyTrip": {
+                        "BOOL": true
+                    },
+                    "arrivalTime": {
+                        "S": "5/10/16, 9:45 AM"
+                    },
+                    "uniqueUserID": {
+                        "S": "EAAPItls5X3EBAFLFXCJyTKTZARoZB0DBFVvALeSPsyRJ5gYESJlEc5OpCRusYCSHkwERyS0ueK8cOM00MosVxBObaIJuONTyZAC6lSGSZABIOe1ZAwIGPGSyi1hMxrcPIxlbLFXfgLhTUFp2ILUlZAgy3ZCVs1KJgusttbbZBdeAJes7Yo6Q86bC6odSXPmBuJAZD"
+                    }
+                }
+            },
+            "uniqueUserID": {
+                "S": "EAAPItls5X3EBAFLFXCJyTKTZARoZB0DBFVvALeSPsyRJ5gYESJlEc5OpCRusYCSHkwERyS0ueK8cOM00MosVxBObaIJuONTyZAC6lSGSZABIOe1ZAwIGPGSyi1hMxrcPIxlbLFXfgLhTUFp2ILUlZAgy3ZCVs1KJgusttbbZBdeAJes7Yo6Q86bC6odSXPmBuJAZD"
+            }
+        },
+        {
+            "uniqueDestinationID": {
+                "S": "C127C1C8-A44D-40C0-9B4A-90AE17EDC3F3"
+            },
+            "jsonDestination": {
+                "M": {
+                    "departureTime": {
+                        "S": "5/10/16, 6:12 AM"
+                    },
+                    "uniqueDeviceID": {
+                        "S": "8FFF8BFF-A057-421B-BAF9-BFBFF637E4BF"
+                    },
+                    "destinationMapItem": {
+                        "M": {
+                            "placemark": {
+                                "M": {
+                                    "coordinate": {
+                                        "M": {
+                                            "latitude": {
+                                                "N": "37.520452"
+                                            },
+                                            "longitude": {
+                                                "N": "37.520452"
+                                            }
+                                        }
+                                    },
+                                    "administrativeArea": {
+                                        "S": "CA"
+                                    },
+                                    "name": {
+                                        "S": "2043 Mezes Ave"
+                                    },
+                                    "countryCode": {
+                                        "S": "US"
+                                    },
+                                    "locality": {
+                                        "S": "Belmont"
+                                    }
+                                }
+                            },
+                            "name": {
+                                "S": "2043 Mezes Ave"
+                            },
+                            "isCurrentLocation": {
+                                "BOOL": false
+                            }
+                        }
+                    },
+                    "uniqueDestinationID": {
+                        "S": "C127C1C8-A44D-40C0-9B4A-90AE17EDC3F3"
+                    },
+                    "arrivalDays": {
+                        "L": [
+                            {
+                                "BOOL": false
+                            },
+                            {
+                                "BOOL": true
+                            },
+                            {
+                                "BOOL": true
+                            },
+                            {
+                                "BOOL": true
+                            },
+                            {
+                                "BOOL": true
+                            },
+                            {
+                                "BOOL": true
+                            },
+                            {
+                                "BOOL": false
+                            }
+                        ]
+                    },
+                    "weeklyTrip": {
+                        "BOOL": true
+                    },
+                    "arrivalTime": {
+                        "S": "5/10/16, 6:00 PM"
+                    },
+                    "uniqueUserID": {
+                        "S": "EAAPItls5X3EBAFLFXCJyTKTZARoZB0DBFVvALeSPsyRJ5gYESJlEc5OpCRusYCSHkwERyS0ueK8cOM00MosVxBObaIJuONTyZAC6lSGSZABIOe1ZAwIGPGSyi1hMxrcPIxlbLFXfgLhTUFp2ILUlZAgy3ZCVs1KJgusttbbZBdeAJes7Yo6Q86bC6odSXPmBuJAZD"
+                    }
+                }
+            },
+            "uniqueUserID": {
+                "S": "EAAPItls5X3EBAFLFXCJyTKTZARoZB0DBFVvALeSPsyRJ5gYESJlEc5OpCRusYCSHkwERyS0ueK8cOM00MosVxBObaIJuONTyZAC6lSGSZABIOe1ZAwIGPGSyi1hMxrcPIxlbLFXfgLhTUFp2ILUlZAgy3ZCVs1KJgusttbbZBdeAJes7Yo6Q86bC6odSXPmBuJAZD"
+            }
+        }
+    ],
+    "ScannedCount": 2,
+    "ConsumedCapacity": null
+}
+
 
 
 
@@ -79,5 +291,27 @@ AWS Lambda Config Event Examples
   "operation": "describe",
   "payload": {
     "TableName" : "ttlTempTable4"
+  }
+}
+
+/** Scan Table **/
+
+{
+  "operation": "list",
+  "payload": {
+    "TableName" : "ttlTempTable4"
+  }
+}
+
+/** Get an item **/
+
+{
+  "operation": "read",
+  "payload": {
+    "TableName" : "ttlTempTable4",
+    "Key": {
+    "uniqueDestinationID": "7981B625-BCA9-456F-B1A7-6B3E55C87E8A",
+    "uniqueUserID": "EAAPItls5X3EBAFLFXCJyTKTZARoZB0DBFVvALeSPsyRJ5gYESJlEc5OpCRusYCSHkwERyS0ueK8cOM00MosVxBObaIJuONTyZAC6lSGSZABIOe1ZAwIGPGSyi1hMxrcPIxlbLFXfgLhTUFp2ILUlZAgy3ZCVs1KJgusttbbZBdeAJes7Yo6Q86bC6odSXPmBuJAZD"
+    }
   }
 }
