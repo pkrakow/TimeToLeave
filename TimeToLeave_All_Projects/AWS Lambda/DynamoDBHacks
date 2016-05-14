@@ -10,30 +10,36 @@ exports.handler = (event, context, callback) => {
     echo('Testing Flow Control in Node', callback);
     //echo(slightReturn('Did the return work?'), callback);
 
+    // jsonDistanceMatrix holds the json object that the Google Maps API returns
+    var jsonDistanceMatrix;
 
+    // Create the http object to make http.request calls to Google Maps
     var http = require('http');
 
-    //build the url
+    // Build the url for the http.request to the Google Maps API
     var options = {
         hostname: 'maps.googleapis.com',
         path: '/maps/api/distancematrix/json?origins=2043+Mezes+Avenue+Belmont+CA+94002&destinations=701+North+First+Street+Sunnyvale+CA+94089&mode=driving&language=en-US&units=imperial'
 
     };
 
-
+    // This function processes the response from the http.request
     callback = function(response) {
+
+        // This is a string to hold the response
         var str = '';
 
-        //another chunk of data has been recieved, so append it to `str`
+        // Each time a chunk of data is received, append it to `str`
         response.on('data', function (chunk) {
             str += chunk;
-            console.log('chunk = ', chunk);
         });
 
-        //the whole response has been recieved, so we just print it out here
+        // Once the whole response has been recieved, load it into the json object
         response.on('end', function () {
             console.log('str = ', str);
-
+            jsonDistanceMatrix = JSON.parse(str);
+            console.log('jsonDistanceMatrix.destination_addresses[0] = ', jsonDistanceMatrix.destination_addresses[0]);
+            console.log('jsonDistanceMatrix..rows[0].elements[0].duration.text = ', jsonDistanceMatrix.rows[0].elements[0].duration.text);
         });
     }
 
