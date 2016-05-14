@@ -7,18 +7,14 @@
 \deftab529
 \pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 
-\f0\b\fs22 \cf0 Notes to self 5.08.2016:
+\f0\b\fs22 \cf0 Notes to self 5.14.2016:
 \f1\b0 \cf2 \CocoaLigature0 \
 \
-Nits to fix:\
-Set arrival time to NSDate() + Travel time\
-Delete entries from AWS when deleting them from the app (or mark them deleted)\
-Change the AWS table to a new "Destinations" table\
-Update the User object to log locations in AWS DynamoDB
+Go look at the AWS Lambda next steps - need to calculate TTL in the cloud\
+
 \f0\b \cf0 \
 
 \f1\b0 \cf2 \
-Also playing around with AWS Lambda to see if I can get a cron job to process destinations\
 \
 ---------------------------------------------------------------------------------------\
 Remember to commit frequently:\
@@ -81,6 +77,10 @@ DestinationTableViewController:\
 5) Add code to return to login/logout\
 6) Update the design of the cells (include time to leave, and sort by time to leave)\
 	a) Remember to remove the code that hacks TTL into the cell label\
+7) Delete entries from AWS when deleting them from the app (or mark them deleted)\
+\
+\
+\
 \
 1) [Done] Add code to populate the Table\
 2) [Done] Add code to edit entries\
@@ -114,17 +114,33 @@ Destination:\
 1) Add modes of transportation\
 2) Add versioning for cloud vs client storage management\
 3) Remember to remove the \cf4 updateDepartureTime\cf0 () call from the json initializer after AWS takes over that function\cf2 \
+4) Set arrival time to NSDate() + Travel time\
 \
+\
+User:\
+1) [Done] Create user object to track the user's location\
+2) Update the user object to store the user's location in dynamoDB\
 \
 DynamoDB:\
-0) Look into JSON encoding each destination\
-1) Create table that matches the Destinations schema:\
+0) [Done] Look into JSON encoding each destination\
+1) [Done] Create table that matches the Destinations schema:\
 UUID; whole object encoded; longitude; latitude; arrival time; daysof week; timetoleave\
+2) Change the AWS table to a new "Destinations" table\
 \
-Lambda:\
-1) Write the code to listen for DB updates\
-2) Write the code to calculate TimeToLeave\
-3) Write the code to send notifications\
+\
+AWS Lambda:\
+\
+1) Store user location in DynamoDB \
+2) Write a test function to calculate TTL for a single user/destination\
+	a) Get user's location from DynamoDB\
+	b) Get destination from DynamoDB\
+	c) Construct URL for google Maps API\
+	d) [Done] Call google maps API to get the travel duration\
+	e) Calculate the TTL\
+	f) write the TTL back to Dynamo DB\
+3) Write the generalized version of the TTL flow that will work across multiple users and destinations\
+\
+\
 \
 \
 Bonus Items:\
