@@ -1,0 +1,50 @@
+'use strict';
+console.log('Loading function');
+
+let doc = require('dynamodb-doc');
+let dynamo = new doc.DynamoDB();
+
+exports.handler = (event, context, callback) => {
+
+    console.log('Received event:', JSON.stringify(event, null, 2));
+    echo('Testing Flow Control in Node', callback);
+    //echo(slightReturn('Did the return work?'), callback);
+
+
+    var http = require('http');
+
+    //build the url
+    var options = {
+        hostname: 'maps.googleapis.com',
+        path: '/maps/api/distancematrix/json?origins=2043+Mezes+Avenue+Belmont+CA+94002&destinations=701+North+First+Street+Sunnyvale+CA+94089&mode=driving&language=en-US&units=imperial'
+
+    };
+
+
+    callback = function(response) {
+        var str = '';
+
+        //another chunk of data has been recieved, so append it to `str`
+        response.on('data', function (chunk) {
+            str += chunk;
+            console.log('chunk = ', chunk);
+        });
+
+        //the whole response has been recieved, so we just print it out here
+        response.on('end', function () {
+            console.log('str = ', str);
+
+        });
+    }
+
+    http.request(options, callback).end();
+
+};
+
+function echo(input, callback){
+    callback(null, input);
+}
+
+function slightReturn(input){
+    return input;
+}
