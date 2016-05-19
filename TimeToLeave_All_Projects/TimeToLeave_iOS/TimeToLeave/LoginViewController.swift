@@ -41,7 +41,8 @@ class LoginViewController: UIViewController {
             AmazonClientManager.sharedInstance.reloadFBSession()
             
             // Get the user ID for this user
-            User.sharedInstance.getUniqueUserID()
+            //User.sharedInstance!.getUniqueUserID()
+            //print("User.sharedInstance.uniqueUserID: ", User.sharedInstance!.uniqueUserID)
             
             // If the user is already logged in, segue to the DestinationTableViewController
             performSegueWithIdentifier("IsLoggedIn", sender: self)

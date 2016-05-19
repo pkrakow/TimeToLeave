@@ -29,6 +29,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
     var departureTime: NSDate?
     var arrivalDays: [Bool]
     var weeklyTrip: Bool
+    let debugUser = User()
     
     var jsonDestination: JSON?
  
@@ -39,7 +40,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
     static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("destinations")
  
     
-    // MARK: Types
+    // MARK: PropertyKey for archiving
     struct PropertyKey {
 
         static let uniqueDestinationIDKey = "uniqueDestinationID"
@@ -61,8 +62,12 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         
         // Initialize properties
         self.uniqueDestinationID = NSUUID().UUIDString
-        self.uniqueUserID = User.sharedInstance.uniqueUserID
-        self.uniqueDeviceID = UIDevice.currentDevice().identifierForVendor!.UUIDString
+        /*
+        self.uniqueUserID = User.sharedInstance!.uniqueUserID
+        self.uniqueDeviceID = User.sharedInstance!.uniqueDeviceID
+        */
+        self.uniqueUserID = debugUser!.uniqueUserID
+        self.uniqueDeviceID = debugUser!.uniqueDeviceID
         
         self.destinationMapItem = destinationMapItem
         self.arrivalTime = arrivalTime
@@ -70,7 +75,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         self.weeklyTrip = false
         
         super.init()
-        updateDepartureTime()
+        //updateDepartureTime()
         self.jsonDestination = self.toJSON()
 
         
@@ -98,7 +103,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         super.init()
         
         // Remember to remove this line after AWS starts correcting departure times
-        updateDepartureTime()
+        //updateDepartureTime()
         
     }
     
@@ -116,13 +121,13 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         self.weeklyTrip = weeklyTrip
 
         super.init()
-        updateDepartureTime()
+        //updateDepartureTime()
         self.jsonDestination = self.toJSON()        
 
     }
 
     // MARK: Departure Time Functions
-    
+ /*
     func updateDepartureTime() {
         
         // Make the call to Google Maps to get travel time json
@@ -185,21 +190,24 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
     }
     
     
-    
+ 
     func buildGoogleMapsURL(destinationMapItem: MKMapItem) -> String? {
         
         var googleMapsURL: String?
         var origin: String?
         var destination: String?
-        User.sharedInstance.locationManager.requestLocation()
+        // User.sharedInstance!.locationManager.requestLocation()
+        debugUser!.locationManager.requestLocation()
         
 
             
         // Check to make sure you have a location
-        if (User.sharedInstance.locationManager.location != nil){
+        //if (User.sharedInstance!.locationManager.location != nil){
+        if (debugUser!.locationManager.location != nil){
             
             // Set the origin to the user's location
-            origin = String(User.sharedInstance.locationManager.location!.coordinate.latitude) + "," + String(User.sharedInstance.locationManager.location!.coordinate.longitude)
+            //origin = String(User.sharedInstance!.locationManager.location!.coordinate.latitude) + "," + String(User.sharedInstance!.locationManager.location!.coordinate.longitude)
+            origin = String(debugUser!.locationManager.location!.coordinate.latitude) + "," + String(debugUser!.locationManager.location!.coordinate.longitude)
             
             // Set the destination to the destination (duh)
             destination = "&destinations=" + String(destinationMapItem.placemark.coordinate.latitude) + "," + String(destinationMapItem.placemark.coordinate.longitude)
@@ -245,7 +253,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         loadDataTask.resume()
     }
 
-
+*/
     // MARK: CLLocationManagerDelegates
     func destinationViewControllerLocationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
@@ -362,7 +370,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
     
     
     class func dynamoDBTableName() -> String! {
-        return Constants.TimeToLeaveDynamoDBTableName
+        return Constants.TimeToLeaveDynamoDBDestinationTableName
     }
     
     

@@ -8,17 +8,40 @@
 
 import Foundation
 import CoreLocation
+import AWSCore
+import AWSDynamoDB
+import Gloss
 
-class User: NSObject, CLLocationManagerDelegate {
+//class User: NSObject, CLLocationManagerDelegate {
+//class User: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
+class User: AWSDynamoDBObjectModel, CLLocationManagerDelegate, AWSDynamoDBModeling, Glossy {
     static let sharedInstance = User()
     
     // MARK: Properties
     var uniqueUserID:String?
-    var locationManager: CLLocationManager!
-    var regionRadius: CLLocationDistance = 1000
+    var uniqueDeviceID:String?
+    var locationManager: CLLocationManager
+    let regionRadius: CLLocationDistance = 1000
+    var jsonUser: JSON?
+
+    // Initialize the AWS Dynamo DB Object Mapper
+    let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.defaultDynamoDBObjectMapper()
+    
+    
+    // MARK: Archiving Paths
+    static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("users")
+
+
     
     // MARK: Initialization
-    override init() {
+    override init?() {
+        
+        // Set the uniqueUserID (Delete after debugging)
+        self.uniqueUserID = AmazonClientManager.sharedInstance.credentialsProvider?.logins["graph.facebook.com"] as? String
+        
+        // Set the uniqueDeviceID
+        self.uniqueDeviceID = UIDevice.currentDevice().identifierForVendor!.UUIDString
         
         // Create a location manager object
         locationManager = CLLocationManager()
@@ -27,9 +50,6 @@ class User: NSObject, CLLocationManagerDelegate {
         
         // Set the location manager delegate
         locationManager.delegate = self
-        
-        // Request location authorization 
-        //locationManager.requestAlwaysAuthorization()
         
         // Set location accuracy to Best for creating new destinations
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -42,14 +62,54 @@ class User: NSObject, CLLocationManagerDelegate {
         
     }
     
+
+    init?(uniqueUserID: String, uniqueDeviceID: String, locationManager: CLLocationManager) {
+        
+        // Initialize properties
+        self.uniqueUserID = uniqueUserID
+        self.uniqueDeviceID = uniqueDeviceID
+        self.locationManager = locationManager
+        
+        super.init()
+        
+        self.jsonUser = self.toJSON()
+    }
+ 
+
+    // Initializer for creating a user from a JSON object
+    required init?(json: JSON) {
+        
+        self.uniqueUserID = ("uniqueUserID" <~~ json)!
+        self.uniqueDeviceID = ("uniqueDeviceID" <~~ json)!
+        self.locationManager = ("locationManager" <~~ json)!
+        self.jsonUser = json
+        
+        super.init()
+        
+    }
+/*
     // MARK: Functions
     func getUniqueUserID() {
+        
+        // Set the uniqueUserID (Delete after debugging)
+        //self.uniqueUserID = "Test_String_uniqueUserID"
+        
         self.uniqueUserID = AmazonClientManager.sharedInstance.credentialsProvider?.logins["graph.facebook.com"] as? String
         //self.uniqueUserID = AmazonClientManager.sharedInstance.credentialsProvider?.getIdentityId().result as? String
+        //print("self.uniqueUserID: ", self.uniqueUserID)
     }
-    
-    
-    
+*/
+    // Create a JSON version of the user object
+    func toJSON() -> JSON? {
+        
+        return jsonify([
+            "uniqueUserID" ~~> self.uniqueUserID,
+            "uniqueDeviceID" ~~> self.uniqueDeviceID,
+            "locationManager" ~~> self.locationManager
+            ])
+        
+    }
+
     // MARK: CLLocationManagerDelegates
     func destinationViewControllerLocationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
@@ -68,10 +128,15 @@ class User: NSObject, CLLocationManagerDelegate {
             print("Location Denied")
         }
     }
-    
+
     // didUpdateLocations Delegate
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //print("Location: ", locations)
+        
+        // If the location gets updated, update the record that's stored in AWS DynamoDB
+        print("didUpdateLocations")
+        self.jsonUser = self.toJSON()
+        //dynamoDBObjectMapper.save(self)
+
     }
     
     func startBackgroundLocationMonitoring() {
@@ -104,5 +169,71 @@ class User: NSObject, CLLocationManagerDelegate {
         locationManager.startMonitoringSignificantLocationChanges()
         
     }
+    
+    // MARK: PropertyKey for archiving
+    struct PropertyKey {
+        static let uniqueUserIDKey = "uniqueUserID"
+        static let uniqueDeviceIDKey = "uniqueDeviceID"
+        //static let locationManagerKey = "locationManager"
+    }
+    
+    // MARK: NSCoding
+    override func encodeWithCoder(aCoder: NSCoder){
+        
+        aCoder.encodeObject(uniqueUserID, forKey: PropertyKey.uniqueUserIDKey)
+        aCoder.encodeObject(uniqueDeviceID, forKey: PropertyKey.uniqueDeviceIDKey)
+       //aCoder.encodeObject(locationManager, forKey: PropertyKey.locationManagerKey)
+        
+        // Remember to add the self.toJSON code here later
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        
+        // Decode the archived variables for the class
+        //let uniqueUserID = aDecoder.decodeObjectForKey(PropertyKey.uniqueUserIDKey) as! String
+        //let uniqueDeviceID = aDecoder.decodeObjectForKey(PropertyKey.uniqueDeviceIDKey) as! String
+        //let locationManager = aDecoder.decodeObjectForKey(PropertyKey.locationManagerKey) as! CLLocationManager
+        
+        // Initialize the class with those variables
+        //self.init(uniqueUserID: uniqueUserID, uniqueDeviceID: uniqueDeviceID, locationManager: locationManager)
+        self.init()
+       
+        
+    }
+    
+    
+    // MARK: AWSDynamoDB
+    class func dynamoDBTableName() -> String! {
+        return Constants.TimeToLeaveDynamoDBUserTableName
+    }
+    
+    
+    // if we define attribute it must be included when calling it in function testing...
+    class func hashKeyAttribute() -> String! {
+        return "uniqueUserID"
+    }
+    
+    class func rangeKeyAttribute() -> String! {
+        return "uniqueDeviceID"
+    }
+    
+    
+    class func ignoreAttributes() -> Array<AnyObject>! {
+
+        return ["sharedInstance", "locationManager", "regionRadius", "dynamoDBObjectMapper", "jsonUser"]
+
+    }
+    
+    //MARK: NSObjectProtocol hack
+    //Fixes Does not conform to the NSObjectProtocol error
+    
+    override func isEqual(object: AnyObject?) -> Bool {
+        return super.isEqual(object)
+    }
+    
+    override func `self`() -> Self {
+        return self
+    }
+
 
 }

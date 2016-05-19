@@ -7,14 +7,13 @@
 \deftab529
 \pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 
-\f0\b\fs22 \cf0 Notes to self 5.14.2016:
+\f0\b\fs22 \cf0 Notes to self 5.19.2016:
 \f1\b0 \cf2 \CocoaLigature0 \
 \
+The simplified user object is now uploading to DynamoDB.  Add back the rest of the class piece by piece to get the user's location data into AWS.\
+\
 Go look at the AWS Lambda next steps - need to calculate TTL in the cloud\
-
-\f0\b \cf0 \
-
-\f1\b0 \cf2 \
+\
 \
 ---------------------------------------------------------------------------------------\
 Remember to commit frequently:\
@@ -120,6 +119,7 @@ Destination:\
 User:\
 1) [Done] Create user object to track the user's location\
 2) Update the user object to store the user's location in dynamoDB\
+3) Remember to work out the logic on the uniqueDeviceID.  May need to generate it locally to share stuff across devices (vs getting from AWS.)\
 \
 DynamoDB:\
 0) [Done] Look into JSON encoding each destination\
@@ -178,11 +178,9 @@ LocationManager:\
 \
 \
 \
-\pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 \cf5 class\cf0  DestinationViewController: \cf3 UIViewController\cf0 , \cf3 CLLocationManagerDelegate\cf0 , \cf3 MKMapViewDelegate\cf0  \{\
     \
     \cf2 // MARK: Properties\
-\pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 \cf0     \cf5 @IBOutlet\cf0  \cf5 weak\cf0  \cf5 var\cf0  mapView: \cf3 MKMapView\cf0 !\
     \cf5 @IBOutlet\cf0  \cf5 weak\cf0  \cf5 var\cf0  destinationName: \cf3 UILabel\cf0 !\
     \cf5 @IBOutlet\cf0  \cf5 weak\cf0  \cf5 var\cf0  datePicker: \cf3 UIDatePicker\cf0 !\

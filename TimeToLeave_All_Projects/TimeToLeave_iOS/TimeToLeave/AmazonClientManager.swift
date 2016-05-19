@@ -157,7 +157,7 @@ class AmazonClientManager : NSObject, GPPSignInDelegate {
         print("Initializing Clients...")
         
         // Available logging level options: None; Error; Warn; Info; Debug; Verbose
-        AWSLogger.defaultLogger().logLevel = AWSLogLevel.Verbose
+        AWSLogger.defaultLogger().logLevel = AWSLogLevel.Error
         
         let identityProvider = DeveloperAuthenticatedIdentityProvider(
             regionType: Constants.COGNITO_REGIONTYPE,
