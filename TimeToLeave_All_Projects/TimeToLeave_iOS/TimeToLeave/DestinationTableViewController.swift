@@ -176,7 +176,7 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
                 let selectedDestination = destinations[indexPath.row]
                 // Set the detail view to show the contents of that cell
                 destinationDetailViewController.thisDestination = selectedDestination
-                //selectedDestination.updateDepartureTime()
+                selectedDestination.updateDepartureTime()
             }
         }
 
@@ -221,8 +221,8 @@ class DestinationTableViewController: UITableViewController, UISearchBarDelegate
         }
         
         // Temp code to see if I can force a save of the user object
-        print("Tracer for saving the User data")
-        dynamoDBObjectMapper.save(User.sharedInstance)
+        //print("Tracer for saving the User data")
+        //dynamoDBObjectMapper.save(User.sharedInstance)
         
     
     }

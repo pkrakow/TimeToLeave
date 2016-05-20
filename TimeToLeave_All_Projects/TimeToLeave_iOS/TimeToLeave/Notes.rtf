@@ -7,10 +7,8 @@
 \deftab529
 \pard\tx529\pardeftab529\pardirnatural\partightenfactor0
 
-\f0\b\fs22 \cf0 Notes to self 5.19.2016:
+\f0\b\fs22 \cf0 Notes to self 5.20.2016:
 \f1\b0 \cf2 \CocoaLigature0 \
-\
-The simplified user object is now uploading to DynamoDB.  Add back the rest of the class piece by piece to get the user's location data into AWS.\
 \
 Go look at the AWS Lambda next steps - need to calculate TTL in the cloud\
 \
@@ -118,7 +116,7 @@ Destination:\
 \
 User:\
 1) [Done] Create user object to track the user's location\
-2) Update the user object to store the user's location in dynamoDB\
+2) [Done] Update the user object to store the user's location in dynamoDB\
 3) Remember to work out the logic on the uniqueDeviceID.  May need to generate it locally to share stuff across devices (vs getting from AWS.)\
 \
 DynamoDB:\
@@ -130,7 +128,7 @@ UUID; whole object encoded; longitude; latitude; arrival time; daysof week; time
 \
 AWS Lambda:\
 \
-1) Store user location in DynamoDB \
+1) [Done] Store user location in DynamoDB \
 2) Write a test function to calculate TTL for a single user/destination\
 	a) Get user's location from DynamoDB\
 	b) Get destination from DynamoDB\

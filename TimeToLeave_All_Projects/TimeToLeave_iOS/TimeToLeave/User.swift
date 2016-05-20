@@ -12,8 +12,7 @@ import AWSCore
 import AWSDynamoDB
 import Gloss
 
-//class User: NSObject, CLLocationManagerDelegate {
-//class User: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
+
 class User: AWSDynamoDBObjectModel, CLLocationManagerDelegate, AWSDynamoDBModeling, Glossy {
     static let sharedInstance = User()
     
@@ -60,9 +59,12 @@ class User: AWSDynamoDBObjectModel, CLLocationManagerDelegate, AWSDynamoDBModeli
         // Enable background location monitoring
         self.startBackgroundLocationMonitoring()
         
+        // Populate the JSON verion of the user
+        self.jsonUser = self.toJSON()
+        
     }
     
-
+/*
     init?(uniqueUserID: String, uniqueDeviceID: String, locationManager: CLLocationManager) {
         
         // Initialize properties
@@ -74,38 +76,24 @@ class User: AWSDynamoDBObjectModel, CLLocationManagerDelegate, AWSDynamoDBModeli
         
         self.jsonUser = self.toJSON()
     }
- 
+*/
 
     // Initializer for creating a user from a JSON object
-    required init?(json: JSON) {
+    required convenience init?(json: JSON) {
         
-        self.uniqueUserID = ("uniqueUserID" <~~ json)!
-        self.uniqueDeviceID = ("uniqueDeviceID" <~~ json)!
-        self.locationManager = ("locationManager" <~~ json)!
-        self.jsonUser = json
-        
-        super.init()
+        // Create a new user from scratch - results will be the same as restoring a copy
+        self.init()
         
     }
-/*
-    // MARK: Functions
-    func getUniqueUserID() {
-        
-        // Set the uniqueUserID (Delete after debugging)
-        //self.uniqueUserID = "Test_String_uniqueUserID"
-        
-        self.uniqueUserID = AmazonClientManager.sharedInstance.credentialsProvider?.logins["graph.facebook.com"] as? String
-        //self.uniqueUserID = AmazonClientManager.sharedInstance.credentialsProvider?.getIdentityId().result as? String
-        //print("self.uniqueUserID: ", self.uniqueUserID)
-    }
-*/
+
     // Create a JSON version of the user object
     func toJSON() -> JSON? {
         
         return jsonify([
             "uniqueUserID" ~~> self.uniqueUserID,
             "uniqueDeviceID" ~~> self.uniqueDeviceID,
-            "locationManager" ~~> self.locationManager
+            "locationManager.location.coordinate.latitude" ~~> self.locationManager.location!.coordinate.latitude,
+            "locationManager.location.coordinate.longitude" ~~> self.locationManager.location!.coordinate.longitude
             ])
         
     }
@@ -133,9 +121,9 @@ class User: AWSDynamoDBObjectModel, CLLocationManagerDelegate, AWSDynamoDBModeli
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         // If the location gets updated, update the record that's stored in AWS DynamoDB
-        print("didUpdateLocations")
+        //print("didUpdateLocations")
         self.jsonUser = self.toJSON()
-        //dynamoDBObjectMapper.save(self)
+        dynamoDBObjectMapper.save(self)
 
     }
     
@@ -174,7 +162,7 @@ class User: AWSDynamoDBObjectModel, CLLocationManagerDelegate, AWSDynamoDBModeli
     struct PropertyKey {
         static let uniqueUserIDKey = "uniqueUserID"
         static let uniqueDeviceIDKey = "uniqueDeviceID"
-        //static let locationManagerKey = "locationManager"
+        static let locationManagerKey = "locationManager"
     }
     
     // MARK: NSCoding
@@ -182,20 +170,14 @@ class User: AWSDynamoDBObjectModel, CLLocationManagerDelegate, AWSDynamoDBModeli
         
         aCoder.encodeObject(uniqueUserID, forKey: PropertyKey.uniqueUserIDKey)
         aCoder.encodeObject(uniqueDeviceID, forKey: PropertyKey.uniqueDeviceIDKey)
-       //aCoder.encodeObject(locationManager, forKey: PropertyKey.locationManagerKey)
+        aCoder.encodeObject(locationManager, forKey: PropertyKey.locationManagerKey)
         
-        // Remember to add the self.toJSON code here later
+        
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
         
-        // Decode the archived variables for the class
-        //let uniqueUserID = aDecoder.decodeObjectForKey(PropertyKey.uniqueUserIDKey) as! String
-        //let uniqueDeviceID = aDecoder.decodeObjectForKey(PropertyKey.uniqueDeviceIDKey) as! String
-        //let locationManager = aDecoder.decodeObjectForKey(PropertyKey.locationManagerKey) as! CLLocationManager
-        
-        // Initialize the class with those variables
-        //self.init(uniqueUserID: uniqueUserID, uniqueDeviceID: uniqueDeviceID, locationManager: locationManager)
+        // Create a new user from scratch - results will be the same as restoring a copy
         self.init()
        
         
@@ -220,7 +202,7 @@ class User: AWSDynamoDBObjectModel, CLLocationManagerDelegate, AWSDynamoDBModeli
     
     class func ignoreAttributes() -> Array<AnyObject>! {
 
-        return ["sharedInstance", "locationManager", "regionRadius", "dynamoDBObjectMapper", "jsonUser"]
+        return ["sharedInstance", "locationManager", "regionRadius", "dynamoDBObjectMapper"]
 
     }
     
