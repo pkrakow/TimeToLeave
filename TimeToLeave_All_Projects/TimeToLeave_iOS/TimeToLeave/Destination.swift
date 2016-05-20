@@ -127,6 +127,8 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         // Make the call to Google Maps to get travel time json
         getGoogleDistanceMatrixWithSuccess { (data) -> Void in
             var json: [String: AnyObject]!
+            var travelTimeHoursDouble: Double?
+            var travelTimeMinutesDouble: Double?
             
             // 1: deserialize the data using NSJSONSerialization
             do {
@@ -151,8 +153,13 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
                         return
                     }
                     var travelTimeStringArray = travelTimeString.componentsSeparatedByString(" ")
-                    let travelTimeHoursDouble = Double(travelTimeStringArray[0])
-                    let travelTimeMinutesDouble = Double(travelTimeStringArray[2])
+                    if travelTimeStringArray.count == 4 {
+                        travelTimeHoursDouble = Double(travelTimeStringArray[0])
+                        travelTimeMinutesDouble = Double(travelTimeStringArray[2])
+                    } else {
+                        travelTimeHoursDouble = 0
+                        travelTimeMinutesDouble = Double(travelTimeStringArray[0])
+                    }
                     self.departureTime = self.arrivalTime.dateByAddingTimeInterval(-60*60*travelTimeHoursDouble!-60*travelTimeMinutesDouble!)
                     print("arrivalTime = ", self.arrivalTime)
                     print("travelTime = ", travelTimeString)
@@ -378,7 +385,6 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
     
     
     class func ignoreAttributes() -> Array<AnyObject>! {
-        //return nil
         return ["uniqueDeviceID", "destinationMapItem", "arrivalTime", "departureTime", "arrivalDays", "weeklyTrip", "syncClient", "DocumentsDirectory", "ArchiveURL", "PropertyKey"]
     }
     

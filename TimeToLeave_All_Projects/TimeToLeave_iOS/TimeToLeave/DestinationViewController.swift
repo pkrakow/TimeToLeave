@@ -110,6 +110,8 @@ class DestinationViewController: UIViewController, MKMapViewDelegate {
         // Update the destination.arrivalTime with the new arrivalTime
         thisDestination?.arrivalTime = arrivalTime!
         
+        // Update the destination.departureTime based on the new arrivalTime
+        thisDestination?.updateDepartureTime()
         
     }
     
