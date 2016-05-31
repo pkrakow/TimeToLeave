@@ -376,11 +376,11 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
     
     // if we define attribute it must be included when calling it in function testing...
     class func hashKeyAttribute() -> String! {
-        return "uniqueDestinationID"
+        return "uniqueUserID"
     }
     
     class func rangeKeyAttribute() -> String! {
-        return "uniqueUserID"
+        return "uniqueDestinationID"
     }
     
     
