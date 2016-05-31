@@ -1,0 +1,86 @@
+// DynamoDB Node.js API Reference
+// http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html
+
+
+/*************************************************************************
+Program Outline
+
+1) Get a list of users (and handle lists longer than 100 items)
+2) For each user/device pair get a list of destinations (across devices)
+3) For each destination:
+    a) Build the http.request for that destination/device
+    b) Send the request to Google Maps
+    c) Calculate the TTL for that destination/device
+    d) Store the TTL for that destination/device
+*************************************************************************/
+
+'use strict';
+//var unmarshalItem = require('dynamodb-marshaler').unmarshalItem;
+console.log('Loading function');
+
+let doc = require('dynamodb-doc');
+let dynamo = new doc.DynamoDB();
+
+// Create variables to hold the two table names
+let destinationTableName = 'ttlTempTable4';
+let userTableName = 'ttlTempTable5';
+
+
+exports.handler = (event, context, callback) => {
+
+    // Prepare to scan the User Table
+    var userParams = {
+        TableName: userTableName
+    };
+
+    // Scan the User Table to get all user / device pairs in the database
+    dynamo.scan(userParams, function(err, data) {
+      if (err) console.log(err, err.stack); // an error occurred
+      else  {
+                // 2) For each user/device pair get a list of destinations (across devices)
+                data.Items.forEach(function(destination){
+                    /*
+                    console.log(destination.uniqueUserID, " : ", destination.uniqueDeviceID);
+
+                    var getParams = {
+                        TableName: destinationTableName,
+                        Key: {
+                            uniqueDestinationID: '014B53AF-9AF2-41EE-8A70-1346C6111EB3',
+                            uniqueUserID: destination.uniqueUserID
+                        }
+                    };
+
+                    dynamo.getItem(getParams, function(err, data){
+                        if(err) console.log(err, err.stack);
+                        else {
+                            console.log(data);
+                        }
+                    });
+                    */
+                    // Batch version of the same thing - should return all destinations (across devices) for a given user
+
+                    var queryParams = {
+                        TableName : destinationTableName,
+                        KeyConditionExpression: '#id = :udid',
+                        ExpressionAttributeNames:{
+                            '#id': 'uniqueDestinationID'
+                        },
+                        ExpressionAttributeValues: {
+                            ':udid':'014B53AF-9AF2-41EE-8A70-1346C6111EB3'
+                        }
+                    };
+
+
+
+                    dynamo.query(queryParams, function(err, data){
+                        if(err) console.log(err, err.stack);
+                        else {
+                            console.log(data);
+                        }
+                    });
+
+                });
+            }
+      });
+
+};

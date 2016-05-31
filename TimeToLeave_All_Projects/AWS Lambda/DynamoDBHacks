@@ -41,7 +41,7 @@ exports.handler = (event, context, callback) => {
             console.log('jsonDistanceMatrix.destination_addresses[0] = ', jsonDistanceMatrix.destination_addresses[0]);
             console.log('jsonDistanceMatrix..rows[0].elements[0].duration.text = ', jsonDistanceMatrix.rows[0].elements[0].duration.text);
         });
-    }
+    };
 
     http.request(options, callback).end();
 
