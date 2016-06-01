@@ -22,7 +22,7 @@ let doc = require('dynamodb-doc');
 let dynamo = new doc.DynamoDB();
 
 // Create variables to hold the two table names
-let destinationTableName = 'ttlTempTable4';
+let destinationTableName = 'ttlTempTable6';
 let userTableName = 'ttlTempTable5';
 
 
@@ -33,49 +33,35 @@ exports.handler = (event, context, callback) => {
         TableName: userTableName
     };
 
-    // Scan the User Table to get all user / device pairs in the database
+    // 1) Scan the User Table to get all user / device pairs in the database
     dynamo.scan(userParams, function(err, data) {
       if (err) console.log(err, err.stack); // an error occurred
       else  {
                 // 2) For each user/device pair get a list of destinations (across devices)
-                data.Items.forEach(function(destination){
-                    /*
-                    console.log(destination.uniqueUserID, " : ", destination.uniqueDeviceID);
-
-                    var getParams = {
-                        TableName: destinationTableName,
-                        Key: {
-                            uniqueDestinationID: '014B53AF-9AF2-41EE-8A70-1346C6111EB3',
-                            uniqueUserID: destination.uniqueUserID
-                        }
-                    };
-
-                    dynamo.getItem(getParams, function(err, data){
-                        if(err) console.log(err, err.stack);
-                        else {
-                            console.log(data);
-                        }
-                    });
-                    */
-                    // Batch version of the same thing - should return all destinations (across devices) for a given user
+                data.Items.forEach(function(user){
 
                     var queryParams = {
                         TableName : destinationTableName,
-                        KeyConditionExpression: '#id = :udid',
+                        KeyConditionExpression: '#id = :uuid',
                         ExpressionAttributeNames:{
-                            '#id': 'uniqueDestinationID'
+                            '#id': 'uniqueUserID'
                         },
                         ExpressionAttributeValues: {
-                            ':udid':'014B53AF-9AF2-41EE-8A70-1346C6111EB3'
+                            ':uuid':user.uniqueUserID
                         }
                     };
-
-
 
                     dynamo.query(queryParams, function(err, data){
                         if(err) console.log(err, err.stack);
                         else {
-                            console.log(data);
+                            //console.log(data);
+                            // 3) For each destination:
+                                // a) Build the http.request for that destination/device
+                            data.Items.forEach(function(destination){
+                                // Start small by finding the origin and destination
+                                console.log('User Origin: ', user.jsonUser.locationManager.location.coordinate.latitude, ' : ', user.jsonUser.locationManager.location.coordinate.longitude);
+                                console.log('Destination: ', destination.jsonDestination.destinationMapItem.placemark.coordinate.latitude, ' : ', destination.jsonDestination.destinationMapItem.placemark.coordinate.longitude)
+                            });
                         }
                     });
 

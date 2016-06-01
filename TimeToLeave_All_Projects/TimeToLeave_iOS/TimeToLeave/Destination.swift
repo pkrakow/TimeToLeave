@@ -303,7 +303,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
             "destinationMapItem.placemark.locality" ~~> self.destinationMapItem.placemark.locality,
             "destinationMapItem.placemark.administrativeArea" ~~> self.destinationMapItem.placemark.administrativeArea,
             "destinationMapItem.placemark.coordinate.latitude" ~~> self.destinationMapItem.placemark.coordinate.latitude,
-            "destinationMapItem.placemark.coordinate.longitude" ~~> self.destinationMapItem.placemark.coordinate.latitude,
+            "destinationMapItem.placemark.coordinate.longitude" ~~> self.destinationMapItem.placemark.coordinate.longitude,
             "destinationMapItem.placemark.timeZone" ~~> self.destinationMapItem.placemark.timeZone
             ])
     }
