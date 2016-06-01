@@ -18,15 +18,20 @@ Program Outline
 //var unmarshalItem = require('dynamodb-marshaler').unmarshalItem;
 console.log('Loading function');
 
+// Create the dynamoDB object
 let doc = require('dynamodb-doc');
 let dynamo = new doc.DynamoDB();
 
-// Create variables to hold the two table names
+// Create constants to hold the two table names
 let destinationTableName = 'ttlTempTable6';
 let userTableName = 'ttlTempTable5';
 
 
+// This is the exports handler
 exports.handler = (event, context, callback) => {
+
+    // Create the http object to make http.request calls to Google Maps
+    var http = require('http');
 
     // Prepare to scan the User Table
     var userParams = {
@@ -52,15 +57,58 @@ exports.handler = (event, context, callback) => {
                     };
 
                     dynamo.query(queryParams, function(err, data){
-                        if(err) console.log(err, err.stack);
+                        if(err) console.log('Error: ' , err, err.stack);
                         else {
                             //console.log(data);
                             // 3) For each destination:
                                 // a) Build the http.request for that destination/device
                             data.Items.forEach(function(destination){
                                 // Start small by finding the origin and destination
-                                console.log('User Origin: ', user.jsonUser.locationManager.location.coordinate.latitude, ' : ', user.jsonUser.locationManager.location.coordinate.longitude);
-                                console.log('Destination: ', destination.jsonDestination.destinationMapItem.placemark.coordinate.latitude, ' : ', destination.jsonDestination.destinationMapItem.placemark.coordinate.longitude)
+                                //console.log('User Origin: ', user.jsonUser.locationManager.location.coordinate.latitude, ',', user.jsonUser.locationManager.location.coordinate.longitude);
+                                //console.log('User Destination: ', destination.jsonDestination.destinationMapItem.placemark.coordinate.latitude, ',', destination.jsonDestination.destinationMapItem.placemark.coordinate.longitude);
+
+                                // Build up the url path for the http request to the Google Maps API
+                                let userOrigin = (user.jsonUser.locationManager.location.coordinate.latitude + ',' + user.jsonUser.locationManager.location.coordinate.longitude);
+                                let userDestination = (destination.jsonDestination.destinationMapItem.placemark.coordinate.latitude + ',' + destination.jsonDestination.destinationMapItem.placemark.coordinate.longitude);
+                                let userMode = 'driving';
+                                let userPath = ('/maps/api/distancematrix/json?origins='+ userOrigin+ '&destinations='+ userDestination+ '&mode='+ userMode+ '&language=en-US&units=imperial');
+
+                                // Build the url for the http.request to the Google Maps API
+                                var options = {
+                                    hostname: 'maps.googleapis.com',
+                                    //path: '/maps/api/distancematrix/json?origins=2043+Mezes+Avenue+Belmont+CA+94002&destinations=701+North+First+Street+Sunnyvale+CA+94089&mode=driving&language=en-US&units=imperial'
+                                    path:  userPath
+                                };
+                                //console.log(options);
+                                // jsonDistanceMatrix holds the json object that the Google Maps API returns
+                                var jsonDistanceMatrix;
+
+                                // This function processes the response from the http.request to the Google Maps API (below)
+                                callback = function(err, response) {
+                                    if (err) console.log(err, err.stack); // an error occurred
+                                    else  {
+
+                                        // This is a string to hold the response
+                                        var str = '';
+
+                                        // Each time a chunk of data is received, append it to `str`
+                                        response.on('data', function (chunk) {
+                                            str += chunk;
+                                        });
+
+                                        // Once the whole response has been recieved, load it into the json object
+                                        response.on('end', function () {
+                                            //console.log('str = ', str);
+                                            jsonDistanceMatrix = JSON.parse(str);
+                                            console.log('jsonDistanceMatrix.destination_addresses[0] = ', jsonDistanceMatrix.destination_addresses[0]);
+                                            console.log('jsonDistanceMatrix..rows[0].elements[0].duration.text = ', jsonDistanceMatrix.rows[0].elements[0].duration.text);
+                                        });
+                                    }
+                                };
+
+                                // Make the http.request to the Google Maps API
+                                http.request(options, callback).end();
+
                             });
                         }
                     });
