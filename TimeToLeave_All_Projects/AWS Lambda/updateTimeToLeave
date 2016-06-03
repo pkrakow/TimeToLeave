@@ -80,13 +80,15 @@ exports.handler = (event, context, callback) => {
                                     path:  userPath
                                 };
                                 //console.log(options);
+
                                 // jsonDistanceMatrix holds the json object that the Google Maps API returns
                                 var jsonDistanceMatrix;
 
+
                                 // This function processes the response from the http.request to the Google Maps API (below)
-                                callback = function(err, response) {
-                                    if (err) console.log(err, err.stack); // an error occurred
-                                    else  {
+                                callback = function(response) {
+                                    //if (err) console.log(err, err.stack); // an error occurred
+                                    //else  {
 
                                         // This is a string to hold the response
                                         var str = '';
@@ -94,7 +96,7 @@ exports.handler = (event, context, callback) => {
                                         // Each time a chunk of data is received, append it to `str`
                                         response.on('data', function (chunk) {
                                             str += chunk;
-                                        });
+                                            });
 
                                         // Once the whole response has been recieved, load it into the json object
                                         response.on('end', function () {
@@ -102,19 +104,22 @@ exports.handler = (event, context, callback) => {
                                             jsonDistanceMatrix = JSON.parse(str);
                                             console.log('jsonDistanceMatrix.destination_addresses[0] = ', jsonDistanceMatrix.destination_addresses[0]);
                                             console.log('jsonDistanceMatrix..rows[0].elements[0].duration.text = ', jsonDistanceMatrix.rows[0].elements[0].duration.text);
-                                        });
-                                    }
+                                            console.log('destination.jsonDestination.arrivalTime = ', destination.jsonDestination.arrivalTime);
+
+                                            var arr = jsonDistanceMatrix.rows[0].elements[0].duration.text.split(" ");
+                                            arr = arr.map(function (val) { return +val + 1; });
+                                            console.log('arr = ', arr);
+                                            });
+                                   // }
                                 };
 
                                 // Make the http.request to the Google Maps API
                                 http.request(options, callback).end();
-
+                                //console.log('Tracer');
                             });
                         }
                     });
-
                 });
             }
-      });
-
+    });
 };
