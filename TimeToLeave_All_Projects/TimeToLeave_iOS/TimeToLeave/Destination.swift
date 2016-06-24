@@ -81,6 +81,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+        dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC")
         
         self.uniqueDestinationID = "uniqueDestinationID" <~~ json
         self.uniqueUserID = "uniqueUserID" <~~ json
@@ -281,6 +282,7 @@ class Destination: AWSDynamoDBObjectModel, MKMapViewDelegate, AWSDynamoDBModelin
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+        dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC")
         
         return jsonify([
             "uniqueDestinationID" ~~> self.uniqueDestinationID,
