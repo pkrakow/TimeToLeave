@@ -5,13 +5,13 @@
 /*************************************************************************
 Program Outline
 
-1) Get a list of users (and handle lists longer than 100 items)
-2) For each user/device pair get a list of destinations (across devices)
+1) [Done] Get a list of users ( [Not Done] and handle lists longer than 100 items)
+2) [Done] For each user/device pair get a list of destinations (across devices)
 3) For each destination:
-    a) Build the http.request for that destination/device
-    b) Send the request to Google Maps
-    c) Calculate the TTL for that destination/device
-    d) Store the TTL for that destination/device
+    a) [Done] Build the http.request for that destination/device
+    b) [Done] Send the request to Google Maps
+    c) [Done] Calculate the TTL for that destination/device
+    d) [Not Done] Store the TTL for that destination/device
 *************************************************************************/
 
 'use strict';
@@ -63,10 +63,6 @@ exports.handler = (event, context, callback) => {
                             // 3) For each destination:
                                 // a) Build the http.request for that destination/device
                             data.Items.forEach(function(destination){
-                                // Start small by finding the origin and destination
-                                //console.log('User Origin: ', user.jsonUser.locationManager.location.coordinate.latitude, ',', user.jsonUser.locationManager.location.coordinate.longitude);
-                                //console.log('User Destination: ', destination.jsonDestination.destinationMapItem.placemark.coordinate.latitude, ',', destination.jsonDestination.destinationMapItem.placemark.coordinate.longitude);
-
                                 // Build up the url path for the http request to the Google Maps API
                                 let userOrigin = (user.jsonUser.locationManager.location.coordinate.latitude + ',' + user.jsonUser.locationManager.location.coordinate.longitude);
                                 let userDestination = (destination.jsonDestination.destinationMapItem.placemark.coordinate.latitude + ',' + destination.jsonDestination.destinationMapItem.placemark.coordinate.longitude);
@@ -87,8 +83,6 @@ exports.handler = (event, context, callback) => {
 
                                 // This function processes the response from the http.request to the Google Maps API (below)
                                 callback = function(response) {
-                                    //if (err) console.log(err, err.stack); // an error occurred
-                                    //else  {
 
                                         // This is a string to hold the response
                                         var str = '';
@@ -100,22 +94,71 @@ exports.handler = (event, context, callback) => {
 
                                         // Once the whole response has been recieved, load it into the json object
                                         response.on('end', function () {
-                                            //console.log('str = ', str);
                                             jsonDistanceMatrix = JSON.parse(str);
-                                            console.log('jsonDistanceMatrix.destination_addresses[0] = ', jsonDistanceMatrix.destination_addresses[0]);
-                                            console.log('jsonDistanceMatrix..rows[0].elements[0].duration.text = ', jsonDistanceMatrix.rows[0].elements[0].duration.text);
-                                            console.log('destination.jsonDestination.arrivalTime = ', destination.jsonDestination.arrivalTime);
+                                            console.log('destination_address = ', jsonDistanceMatrix.destination_addresses[0]);
+                                            console.log('arrivalTime = ', destination.jsonDestination.arrivalTime);
+                                            console.log('duration = ', jsonDistanceMatrix.rows[0].elements[0].duration.text);
 
-                                            var arr = jsonDistanceMatrix.rows[0].elements[0].duration.text.split(" ");
-                                            arr = arr.map(function (val) { return +val + 1; });
-                                            console.log('arr = ', arr);
+                                            // Store the travel time string in an array
+                                            var travelTimeStringArray = jsonDistanceMatrix.rows[0].elements[0].duration.text.split(" ");
+
+                                            // Map the numbers to numeric values
+                                            travelTimeStringArray = travelTimeStringArray.map(function (val) { return +val; });
+                                            console.log('travelTimeStringArray = ', travelTimeStringArray);
+
+                                            // Break out the numeric values of the travel time hours and minutes to calculate the departure time
+                                            var travelTimeHours = 0;
+                                            var travelTimeMinutes = 0;
+
+                                            if( travelTimeStringArray.length == 4 ) {
+                                                travelTimeHours = travelTimeStringArray[0];
+                                                travelTimeMinutes = travelTimeStringArray[2];
+                                            } else {
+                                                travelTimeHours = 0;
+                                                travelTimeMinutes = travelTimeStringArray[0];
+                                            }
+                                            console.log('travelTimeHours = ', travelTimeHours);
+                                            console.log('travelTimeMinutes = ', travelTimeMinutes);
+
+                                            // Store the arrival time string in an array
+                                            var arrivalTimeStringArray = destination.jsonDestination.arrivalTime.split(" ");
+                                            //arrivalTimeStringArray = arrivalTimeStringArray.map(function (val) { return +val + 1; });
+                                            var departureTimeHour = arrivalTimeStringArray[1].split(":")[0];
+                                            var departureTimeMinute = arrivalTimeStringArray[1].split(":")[1];
+                                            var departureTimeMeridien = arrivalTimeStringArray[2];
+
+                                            // Calculate the new departure time
+                                            console.log('travelTimeMinutes = ', travelTimeMinutes);
+
+
+                                            departureTimeMinute -= travelTimeMinutes;
+                                            if(departureTimeMinute < 0){
+                                                departureTimeHour -= 1;
+                                                departureTimeMinute += 60;
+                                            }
+                                            departureTimeHour -= travelTimeHours;
+                                            if(departureTimeHour < 1){
+                                                departureTimeHour += 12;
+                                                if(departureTimeMeridien == 'AM'){
+                                                    departureTimeMeridien = 'PM';
+                                                } else {
+                                                    departureTimeMeridien = 'AM';
+                                                }
+                                            }
+
+                                            // Store the new departure time
+                                            var departureTimeStringArray = destination.jsonDestination.departureTime.split(" ");
+                                            departureTimeStringArray[1] = departureTimeHour + ':' + departureTimeMinute;
+                                            departureTimeStringArray[2] = departureTimeMeridien;
+                                            destination.jsonDestination.departureTime = departureTimeStringArray[0] + ' ' + departureTimeStringArray[1] + ' ' + departureTimeStringArray[2];
+                                            console.log('departureTime = ', destination.jsonDestination.departureTime);
+                                            // don't forget to put it back in DynamoDB...
+
                                             });
-                                   // }
                                 };
 
                                 // Make the http.request to the Google Maps API
                                 http.request(options, callback).end();
-                                //console.log('Tracer');
                             });
                         }
                     });
